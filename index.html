@@ -1,4 +1,9 @@
+<!doctype html>
+<html lang="en">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#08030d">
 <title>Fraction Portfolio</title>
 <meta name="description" content="Fraction, a Mumbai dance collective: choreography, direction and film for brands, artists and itself.">
 <!-- TRIAL BUILD: remove the robots line below when this goes live on Fraction's own site -->
@@ -211,62 +216,95 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
 
 /* ---------- phone: reflow each slide to natural height ---------- */
 @media (max-width:760px){
+  /* phones: every section flows at its natural height; nothing is a fixed 16:9 stage */
   .slide{aspect-ratio:auto;width:100%}
   .slide > *{position:relative}
-  .slide > .orbs,.slide > .shade,.slide > .bg,.slide > .runmark{position:absolute}
-  .pad{padding:28px 20px;gap:18px}
+  .slide > .orbs,.slide > .shade,.slide > .runmark{position:absolute}
+  .pad{inset:auto;padding:72px 20px 44px;gap:18px}
   .eyebrow{font-size:11px}
-  .h1{font-size:14cqw}.h2{font-size:10cqw}.h3{font-size:6cqw}
-  .lede{font-size:17px;max-width:none}.small{font-size:14px}
+  .h1{font-size:clamp(40px,12vw,56px)}.h2{font-size:clamp(30px,9vw,44px)}.h3{font-size:22px}
+  .lede{font-size:17px;line-height:1.45;max-width:none}.small{font-size:15px;line-height:1.5}
   .watch{font-size:15px;gap:6px;border-bottom-width:1.5px;padding-bottom:3px}
-  .runmark{width:72px;height:31px;right:16px;bottom:16px}
-  .runmark.top{top:18px;bottom:auto}
-  .cover{display:flex}.cover .pad{flex:1}
-  .cover .mark{width:62cqw;height:26.7cqw}
-  .intro{display:flex;flex-direction:column-reverse}
-  .intro .frame{width:100%;height:auto;aspect-ratio:9/16;max-height:80svh}
-  .contact{min-height:110cqw;display:flex}.contact .pad{flex:1}
-  .contact .foot{flex-direction:column;align-items:flex-start;gap:18px}
-  .lines{grid-template-columns:1fr}.lines div:nth-child(2){grid-column:auto;grid-row:auto}
-  .intro .pad{right:auto;padding-bottom:28px}
-  .skills li{font-size:13px;padding:8px 12px}
-  .ff{min-height:120cqw;display:flex}.ff .pad{flex:1}
-  .ff .top{flex-direction:column;gap:6px}
-  .ff .bottom{flex-direction:column;align-items:flex-start;gap:16px}
-  .ff .side{max-width:none}
-  .cases{flex-direction:column}
-  .case.wide,.case.tall{width:100%}
-  .case.tall .media{width:60%}
-  .stack .h3,.card .h3{font-size:5cqw}
-  .cards{grid-template-columns:1fr 1fr;gap:12px}
-  .cut{height:auto;aspect-ratio:3/4}
-  .cut .ph span{font-size:9px}
-  .music b{font-size:15px}
-  .films .pad{flex-direction:column;align-items:stretch}
-  .films .stagewrap{width:100%}
-  .films .nowbar{flex-direction:column;align-items:flex-start;gap:10px}
-  .stage .big{width:64px;height:64px}.stage .big::before{border-left-width:20px;border-top-width:12px;border-bottom-width:12px;margin-left:5px}
-  .playlist{max-height:62svh;padding-right:4px;gap:6px}
-  .playlist button{grid-template-columns:110px 1fr;gap:12px;padding:6px;border-radius:8px}
-  .playlist b{font-size:15px}.playlist small{font-size:10px}.playlist .th i{font-size:8px}
-  .exchange{display:flex;flex-direction:column-reverse}
-  .exchange .frame{width:100%;height:auto;aspect-ratio:9/16;max-height:80svh}
-  .exchange .pad{right:auto}
-  .exchange .h1{font-size:13cqw}
-  .play{font-size:15px;padding:12px 18px 12px 14px;gap:10px}
+  .play{font-size:15px;padding:13px 20px 13px 16px;gap:10px}
   .play::before{border-left-width:11px;border-top-width:7px;border-bottom-width:7px}
-  .exchange .foot{grid-template-columns:1fr;gap:14px;padding-top:16px}
-  .exchange .foot b{font-size:16px}
-  .clients .body{grid-template-columns:1fr}
-  .shots{flex-direction:row}.shots figure{flex:1}
-  .logos{grid-template-columns:repeat(2,1fr);grid-auto-rows:88px;gap:8px}
-  .logo .nm{font-size:14px}.logo .rl{font-size:9px}
-  .shots figcaption{font-size:9px}
-  .contact .mark{width:46cqw;height:20cqw}
+
+  /* cover: still exactly one screen, film cropped to fill; logo and line sized to read */
+  .cover{display:flex}
+  .cover > .bg{position:absolute}
+  .cover .pad{flex:1;padding:24px;gap:22px;justify-content:center}
+  .cover .mark{width:74vw;height:31.9vw}
+  .cover .lede{width:80vw!important;font-size:17px!important;line-height:1.45}
+  .cover .shade{background:radial-gradient(90% 55% at 50% 50%,rgba(8,3,13,.78),rgba(8,3,13,.35) 75%),linear-gradient(0deg,rgba(8,3,13,.8),transparent 35%)}
+
+  /* landscape films and photos become full-width 16:9 blocks above their text */
+  .ff,.contact{display:flex;flex-direction:column}
+  .ff > .bg,.contact > .bg{position:relative;inset:auto;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
+  .contact > .bg{aspect-ratio:3/2}
+  .ff > .shade,.contact > .shade{display:none}
+  .ff .pad,.contact .pad{padding-top:28px}
+  .ff .top{flex-direction:column;gap:6px}
+  .ff .bottom{flex-direction:column;align-items:flex-start;gap:18px}
+  .ff .side{max-width:none}
+  .ff .eyebrow,.ff .small{color:var(--muted)}.ff .pad{color:var(--ink)}
+
+  /* intro and exchange: words first, then the vertical film */
+  .intro{display:flex;flex-direction:column}
+  .exchange{display:flex;flex-direction:column-reverse}
+  .intro .frame,.exchange .frame{position:relative;width:100%;height:auto;aspect-ratio:9/16;max-height:78svh}
+  .intro .pad,.exchange .pad{right:auto}
+  .skills{gap:8px}.skills li{font-size:13px;padding:9px 13px}
+  .exchange .h1{font-size:clamp(38px,11vw,52px)}
+  .exchange .foot{grid-template-columns:1fr;gap:16px;padding-top:18px}
+  .exchange .foot b{font-size:17px}
+
+  /* brand films */
+  .brands .head{flex-direction:column;align-items:flex-start;gap:10px}
+  .brands .head .small{max-width:none!important}
+  .cases{flex-direction:column;gap:28px}
+  .case.wide,.case.tall{width:100%}
+  .case.tall .media{width:62%}
+  .case .h3,.stack .h3,.card .h3{font-size:20px}
+  .stack{gap:18px}.stack .item{padding-top:14px;gap:6px}
+
+  /* creators */
+  .creators .head{flex-direction:column;align-items:flex-start;gap:10px}
+  .cards{grid-template-columns:1fr 1fr;gap:14px}
+  .cut{height:auto;aspect-ratio:3/4}
+  .cut .ph span{font-size:10px}
+  .card{gap:8px}.card .h3{font-size:17px}
+  .music{gap:8px 16px;padding-top:16px}.music b{font-size:15px}
+
+  /* dance films playlist */
+  .films .pad{flex-direction:column;align-items:stretch;gap:18px}
+  .films .stagewrap{width:100%;gap:12px}
+  .films .nowbar{flex-direction:column;align-items:flex-start;gap:10px}
+  .stage{border-radius:10px}
+  .stage .big{width:64px;height:64px}.stage .big::before{border-left-width:20px;border-top-width:12px;border-bottom-width:12px;margin-left:5px}
+  .playlist{max-height:none;overflow:visible;padding-right:0;gap:6px}
+  .playlist button{grid-template-columns:112px 1fr;gap:12px;padding:6px;border-radius:10px}
+  .playlist .th{border-radius:6px}
+  .playlist b{font-size:15px}.playlist small{font-size:11px;margin-top:4px}
+
+  /* worked with */
+  .clients .body{grid-template-columns:1fr;gap:16px}
+  .shots{flex-direction:column;gap:10px}
+  .shots figure{border-radius:8px}.shots figcaption{font-size:11px;padding:5px 8px;left:8px;bottom:8px}
+  .logos{grid-template-columns:repeat(2,1fr);grid-auto-rows:minmax(104px,auto);gap:10px}
+  .logo{padding:14px 10px;gap:8px;border-radius:10px}
+  .logo .nm{font-size:15px}.logo .rl{font-size:10px}
+  .logo .pend{font-size:10px;padding:4px 8px}
+  a.logo::after{font-size:13px;top:8px;right:10px}
+
+  /* contact */
+  .contact .mark{width:52vw;height:22.4vw}
+  .contact .foot{flex-direction:column;align-items:flex-start;gap:22px}
+  .lines{grid-template-columns:1fr;gap:14px}.lines div:nth-child(2){grid-column:auto;grid-row:auto}
   .lines b{font-size:18px}
 }
 @media (prefers-reduced-motion:reduce){.orb{animation:none}.mono{transition:none}}
 </style>
+</head>
+<body>
 
 <nav class="bar" aria-label="Fraction">
   <span class="mark" role="img" aria-label="Fraction"></span>
@@ -493,8 +531,13 @@ const io=new IntersectionObserver(es=>es.forEach(e=>{
   const s=e.target,on=e.isIntersecting;
   s.classList.toggle('live',on);
   s.querySelectorAll('video').forEach(v=>on?(v.muted&&v.play().catch(()=>{})):v.pause());
-}),{threshold:.3});
+}),{threshold:0,rootMargin:'-35% 0px -35% 0px'});
 slides.forEach(s=>io.observe(s));
+/* phones can hold back muted autoplay until the first touch (iOS Low Power Mode); retry visible loops */
+let kickQueued=false;
+function kick(){if(kickQueued)return;kickQueued=true;requestAnimationFrame(()=>{kickQueued=false;
+  document.querySelectorAll('.slide.live video').forEach(v=>{if(v.muted&&v.paused)v.play().catch(()=>{})})})}
+['touchstart','scroll','click'].forEach(t=>addEventListener(t,kick,{passive:true}));
 
 /* ---- dance films playlist: add a preview + thumb and the row becomes playable ---- */
 const FILMS=[
@@ -524,6 +567,7 @@ function selectFilm(i,play){
   if(play){
     fv.loop=false;fv.muted=false;fv.controls=true;fv.poster=f.th;fv.src=f.src;fv.classList.remove('mono');
     stage.classList.add('playing');fv.play().catch(()=>{});
+    if(innerWidth<=760)stage.scrollIntoView({block:'center',behavior:'smooth'});  // phones: list sits below the player
   }else{
     fv.controls=false;fv.muted=true;fv.loop=true;fv.classList.add('mono');fv.poster=f.th;fv.src=f.loop||f.src;if(stage.closest('.slide').classList.contains('live'))fv.play().catch(()=>{});
     stage.dataset.idx=i;
@@ -558,9 +602,12 @@ addEventListener('scroll',barFade,{passive:true});addEventListener('resize',barF
 /* ---- cover line: exactly the logo's width, largest size that stays on two lines ---- */
 function fitLede(){
   const m=cover.querySelector('.mark'),l=cover.querySelector('.lede');if(!m||!l)return;
+  if(innerWidth<=760){l.style.width='';l.style.fontSize='';return}  // phones: fixed readable size (CSS)
   l.style.width=m.offsetWidth+'px';let lo=6,hi=40;
   while(hi-lo>.25){const f=(lo+hi)/2;l.style.fontSize=f+'px';(l.offsetHeight<=f*1.3*2+2)?lo=f:hi=f}
   l.style.fontSize=lo+'px';
 }
 document.fonts?document.fonts.ready.then(fitLede):fitLede();addEventListener('resize',fitLede);fitLede();
 </script>
+</body>
+</html>
