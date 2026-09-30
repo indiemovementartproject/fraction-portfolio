@@ -1,0 +1,566 @@
+<meta charset="utf-8">
+<title>Fraction Portfolio</title>
+<meta name="description" content="Fraction, a Mumbai dance collective: choreography, direction and film for brands, artists and itself.">
+<!-- TRIAL BUILD: remove the robots line below when this goes live on Fraction's own site -->
+<meta name="robots" content="noindex,nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500&family=Unbounded:wght@500;700;800&display=swap">
+<style>
+/* Afterglow: near-black plum ground, pink light, the logo's own gradient.
+   Single committed dark world, so no light-theme branch. */
+:root{
+  color-scheme:dark;
+  --ground:#08030d; --ground-2:#12081c; --ink:#f8eefb; --muted:#a58fb8; --line:rgba(248,238,251,.13);
+  --pink:#ff4fa6; --pink-2:#ff86c4; --violet:#9b86ff;
+  --logo:linear-gradient(90deg,#9b86ff,#ff4fa6);
+  --display:"Unbounded",system-ui,sans-serif; --body:"Instrument Sans",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--ground);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--pink);outline-offset:3px}
+
+/* ---------- chrome ---------- */
+.bar{position:fixed;inset:0 0 auto 0;z-index:20;display:flex;align-items:center;gap:12px;pointer-events:none;
+  padding:calc(14px + env(safe-area-inset-top,0px)) clamp(16px,3vw,40px) 34px;
+  background:linear-gradient(var(--ground) 35%,rgba(8,3,13,.7) 65%,transparent);opacity:var(--bar,0)}
+.bar .mark{width:104px;height:45px;pointer-events:auto}
+.mark{display:block;background:var(--logo);-webkit-mask:url(media/logo.webp) center/contain no-repeat;mask:url(media/logo.webp) center/contain no-repeat}
+
+/* ---------- deck: true 16:9 stages scaled in cqw ---------- */
+.deck{display:flex;flex-direction:column}
+.slide{position:relative;width:100%;aspect-ratio:16/9;container-type:inline-size;overflow:hidden;background:transparent}
+/* photo and film sections melt into the ground at their top and bottom edges */
+.media-slide::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,var(--ground) 0%,transparent 14%,transparent 86%,var(--ground) 100%)}
+.cover.media-slide::after{background:linear-gradient(180deg,transparent 86%,var(--ground) 100%)}
+.slide > *{position:absolute}
+.layer{inset:0}
+.pad{inset:0;padding:5cqw 5.4cqw;display:flex;flex-direction:column;z-index:2}
+
+/* type scale */
+.eyebrow{font:500 1.05cqw/1.2 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0}
+.h1,.h2,.h3{font-family:var(--display);font-weight:800;text-transform:uppercase;letter-spacing:-.02em;line-height:.95;margin:0;text-wrap:balance}
+.h1{font-size:9cqw}
+.h2{font-size:5.6cqw}
+.h3{font-size:2.3cqw;line-height:1}
+.lede{font-size:1.85cqw;line-height:1.35;font-weight:500;margin:0;max-width:44cqw;text-wrap:pretty}
+.small{font-size:1.2cqw;line-height:1.45;color:var(--muted);margin:0}
+.pink{color:var(--pink)}
+.watch{display:inline-flex;align-items:center;gap:.5cqw;font:600 1.15cqw/1 var(--body);text-decoration:none;border-bottom:.12cqw solid currentColor;padding-bottom:.35cqw;white-space:nowrap}
+.watch:hover{color:var(--pink)}
+.watch::after{content:"↗"}
+.runmark{position:absolute;z-index:3;right:4cqw;bottom:3.4cqw;width:8.5cqw;height:3.7cqw}
+.runmark.top{top:4.4cqw;bottom:auto}
+
+/* ---------- orbs (placed by script, 3–4 per slide) ---------- */
+.orbs{inset:0;z-index:1;pointer-events:none}
+.orb{position:absolute;border-radius:50%;transform:translate(-50%,-50%);
+  background:radial-gradient(circle at 50% 50%,var(--c) 0%,color-mix(in srgb,var(--c) 40%,transparent) 38%,transparent 70%);
+  opacity:var(--o);animation:drift var(--t) ease-in-out infinite alternate}
+.media-slide .orb{mix-blend-mode:screen}
+@keyframes drift{from{translate:0 0}to{translate:var(--dx) var(--dy)}}
+
+/* ---------- media: grayscale at rest, colour on hover ---------- */
+.mono{filter:grayscale(1) contrast(1.04);transition:filter .7s ease}
+.mono:hover,.slide:hover .bg.mono,.slide.live .mono.auto{filter:none}
+@media (hover:none){.slide.live .mono{filter:none}}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0}
+.shade{z-index:1;inset:0}
+
+/* 1 cover: logo front and centre, two-line line beneath; always exactly one screen tall */
+.cover{aspect-ratio:auto;height:100vh;height:100svh;min-height:420px}
+.cover .bg{object-position:50% 45%}
+.cover .shade{background:radial-gradient(60% 55% at 50% 50%,rgba(8,3,13,.62),rgba(8,3,13,.28) 70%),linear-gradient(0deg,rgba(8,3,13,.7),transparent 40%)}
+.cover .pad{align-items:center;justify-content:center;text-align:center;gap:2.6cqw}
+.cover .mark{width:34.8cqw;height:15cqw}
+.cover .lede{max-width:none;text-wrap:balance;line-height:1.3}
+
+/* 2 intro: portrait frame at full height, never cropped (9:16 = 31.64cqw wide) */
+.intro .frame{top:0;right:0;height:100%;width:31.64cqw;z-index:2}
+.intro .frame img,.intro .frame video{width:100%;height:100%;object-fit:cover;display:block}
+.intro .pad{right:31.64cqw;justify-content:space-between}
+.skills{display:flex;flex-wrap:wrap;gap:.7cqw;margin:0;padding:0;list-style:none}
+.skills li{font:600 1.1cqw/1 var(--body);border:1px solid var(--line);background:rgba(255,79,166,.06);border-radius:999px;padding:.8cqw 1.2cqw}
+.skills .brk{flex-basis:100%;height:0;padding:0;border:0;background:none}
+
+/* 3 fashion film */
+.ff .shade{background:linear-gradient(0deg,rgba(8,3,13,.9),transparent 55%),linear-gradient(180deg,rgba(8,3,13,.5),transparent 25%)}
+.ff .bg{object-position:50% 40%}
+.ff .pad{justify-content:space-between}
+.ff .top,.ff .bottom{display:flex;justify-content:space-between;gap:4cqw}
+.ff .bottom{align-items:flex-end}
+.ff .side{display:flex;flex-direction:column;gap:1.6cqw;max-width:32cqw}
+.links{display:flex;gap:2cqw;flex-wrap:wrap}
+
+/* 5 brands */
+.brands .pad{gap:2cqw}
+.brands .head{display:flex;justify-content:space-between;align-items:flex-end;gap:3cqw}
+.cases{display:flex;gap:1.8cqw;align-items:flex-start}
+.case{display:flex;flex-direction:column;gap:1cqw}
+.case .media{position:relative;overflow:hidden;border-radius:.6cqw;background:#000}
+.case .media video{width:100%;height:100%;display:block;object-fit:cover}
+.case.wide{width:40cqw}.case.wide .media{aspect-ratio:16/9}
+.case.tall{width:12.7cqw}.case.tall .media{aspect-ratio:9/16}
+.case .meta{display:flex;justify-content:space-between;align-items:baseline;gap:1cqw}
+.stack{flex:1;display:flex;flex-direction:column;gap:1.2cqw}
+.stack .item{border-top:1px solid var(--line);padding-top:1cqw;display:flex;flex-direction:column;gap:.45cqw}
+.stack .h3{font-size:1.75cqw}
+
+/* 6 creators: cutout cards, photos slot in by filename */
+.creators .pad{gap:2cqw}
+.creators .head{display:flex;justify-content:space-between;align-items:flex-end;gap:3cqw}
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1.6cqw}
+.card{display:flex;flex-direction:column;gap:.9cqw}
+.cut{position:relative;height:20cqw;border-radius:.8cqw;overflow:hidden;
+  background:radial-gradient(70% 60% at 50% 85%,rgba(255,79,166,.45),transparent 70%),linear-gradient(180deg,rgba(155,134,255,.10),rgba(255,79,166,.08));
+  border:1px solid var(--line)}
+.cut img{position:absolute;inset:auto 0 0 0;width:100%;height:100%;object-fit:contain;object-position:50% 100%;display:none}
+.cut.has img{display:block}
+.cut .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.8cqw;padding-bottom:1.4cqw}
+.cut .ph svg{width:62%;height:auto;opacity:.32}
+.cut .ph span{font:500 .8cqw/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.cut.has .ph{display:none}
+.card .h3{font-size:1.75cqw}
+.music{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6cqw 1.6cqw;border-top:1px solid var(--line);padding-top:1.2cqw}
+.music b{font:700 1.3cqw/1.2 var(--body)}
+
+/* 7 dance films: playlist, stage left, scrolling thumbnails right */
+.films .pad{flex-direction:row;align-items:center;gap:2.6cqw}
+.films .stagewrap{width:55cqw;flex:none;display:flex;flex-direction:column;gap:1.3cqw}
+.stage{position:relative;aspect-ratio:16/9;border-radius:.8cqw;overflow:hidden;background:#000;border:1px solid var(--line)}
+.stage video{width:100%;height:100%;object-fit:contain;display:block}
+.stage .big{position:absolute;inset:0;margin:auto;width:7cqw;height:7cqw;border-radius:50%;border:0;background:var(--pink);cursor:pointer;
+  box-shadow:0 0 4cqw rgba(255,79,166,.55);display:grid;place-items:center}
+.stage .big::before{content:"";margin-left:.5cqw;border-left:2cqw solid #fff;border-top:1.2cqw solid transparent;border-bottom:1.2cqw solid transparent}
+.stage .msg{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:1.2cqw;text-align:center;
+  background:radial-gradient(60% 60% at 50% 50%,rgba(255,79,166,.18),rgba(8,3,13,.95));padding:3cqw}
+.stage.pending .msg{display:flex}.stage.pending video,.stage.pending .big,.stage.playing .big{display:none}
+.nowbar{display:flex;justify-content:space-between;align-items:flex-end;gap:2cqw}
+.playlist{flex:1;align-self:stretch;list-style:none;margin:0;padding:0 .8cqw 0 0;overflow-y:auto;display:flex;flex-direction:column;gap:.7cqw;
+  scrollbar-width:thin;scrollbar-color:rgba(255,79,166,.5) transparent;overscroll-behavior:contain}
+.playlist button{width:100%;display:grid;grid-template-columns:10.5cqw 1fr;gap:1.1cqw;align-items:center;padding:.6cqw;border-radius:.7cqw;
+  background:transparent;border:1px solid transparent;color:var(--ink);text-align:left;cursor:pointer;font:inherit}
+.playlist button:hover{background:rgba(248,238,251,.04);border-color:var(--line)}
+.playlist button[aria-current="true"]{background:rgba(255,79,166,.10);border-color:rgba(255,79,166,.45)}
+.playlist .th{aspect-ratio:16/9;border-radius:.45cqw;overflow:hidden;background:linear-gradient(135deg,#1b0c28,#2a0f2c);display:grid;place-items:center}
+.playlist .th img{width:100%;height:100%;object-fit:cover;display:block}
+.playlist .th i{font:500 .65cqw/1.2 var(--mono);font-style:normal;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;padding:0 .6cqw}
+.playlist b{display:block;font:700 1.3cqw/1.15 var(--body)}
+.playlist small{display:block;margin-top:.35cqw;font:500 .8cqw/1.2 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.playlist button[aria-current="true"] b{color:var(--pink-2)}
+
+/* 8 exchange: after movie at its own 9:16, full height */
+.exchange .frame{top:0;right:0;height:100%;width:31.64cqw;z-index:2}
+.exchange .frame video{width:100%;height:100%;object-fit:cover;display:block}
+.exchange .pad{right:31.64cqw;justify-content:space-between}
+.exchange .h1{font-size:7.2cqw}
+.exchange .foot{display:grid;grid-template-columns:repeat(3,1fr);gap:2.2cqw;border-top:1px solid var(--line);padding-top:1.8cqw}
+.exchange .foot b{display:block;font:700 1.45cqw/1.2 var(--body);margin-bottom:.5cqw}
+
+/* play button + in-deck player */
+.play{display:inline-flex;align-items:center;gap:.8cqw;font:700 1.15cqw/1 var(--body);color:#fff;background:var(--pink);border:0;border-radius:999px;
+  padding:.9cqw 1.5cqw .9cqw 1.1cqw;cursor:pointer;box-shadow:0 0 3cqw rgba(255,79,166,.45);white-space:nowrap;width:max-content}
+.play::before{content:"";width:0;height:0;border-left:.9cqw solid #fff;border-top:.55cqw solid transparent;border-bottom:.55cqw solid transparent}
+.play:hover{background:#ff6ab6}
+.player{border:0;padding:0;background:transparent;max-width:none;max-height:none;width:100%;height:100%;color:var(--ink)}
+.player::backdrop{background:rgba(8,3,13,.92);backdrop-filter:blur(6px)}
+.player .wrap{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:24px 16px}
+.player video{max-width:min(100%,1280px);max-height:calc(100% - 90px);border-radius:10px;background:#000;box-shadow:0 0 80px rgba(255,79,166,.25)}
+.player .ctl{display:flex;gap:18px;align-items:center;flex-wrap:wrap;justify-content:center;font:600 15px/1.2 var(--body)}
+.player .ctl b{font:800 16px/1 var(--display);text-transform:uppercase;letter-spacing:-.01em}
+.player .ctl a{color:var(--pink-2)}
+.player .x{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:none;border:1px solid var(--line);border-radius:999px;padding:10px 14px;cursor:pointer}
+.player .note{font:500 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+/* 9 worked with: two photo slots + logo wall */
+.clients .pad{gap:2cqw}
+.clients .body{flex:1;display:grid;grid-template-columns:30cqw 1fr;gap:2.4cqw;min-height:0}
+.shots{display:flex;flex-direction:column;gap:1cqw}
+.shots figure{margin:0;position:relative;aspect-ratio:16/9;border-radius:.6cqw;overflow:hidden;border:1px solid var(--line);
+  background:linear-gradient(135deg,rgba(155,134,255,.12),rgba(255,79,166,.12))}
+.shots img{width:100%;height:100%;object-fit:cover;display:block}
+.shots figcaption{position:absolute;left:.8cqw;bottom:.7cqw;font:500 .8cqw/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(8,3,13,.6);padding:.45cqw .6cqw;border-radius:.3cqw}
+.logos{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:1cqw}
+.logo{position:relative;border:1px solid var(--line);border-radius:.6cqw;background:rgba(248,238,251,.03);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6cqw;padding:1.2cqw;text-align:center}
+.logo img{max-width:72%;max-height:55%;object-fit:contain;display:none}
+.logo.has img{display:block}
+.logo .nm{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:1.45cqw;line-height:1.05;letter-spacing:-.01em}
+.logo.has .nm{display:none}
+.logo .rl{font:500 .75cqw/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+a.logo{text-decoration:none;color:var(--ink);transition:border-color .3s,background .3s}
+a.logo:hover{border-color:rgba(255,79,166,.6);background:rgba(255,79,166,.08)}
+a.logo:hover .nm{color:var(--pink-2)}
+a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw/1 var(--body);color:var(--muted)}
+.logo.nolink{opacity:.55}
+.logo .pend{font:500 .7cqw/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--pink-2);border:1px dashed rgba(255,134,196,.5);border-radius:99px;padding:.35cqw .7cqw}
+
+/* 10 contact: group photo full bleed, black gradient under the text */
+.contact .shade{background:linear-gradient(0deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 30%,rgba(0,0,0,.2) 58%,transparent 72%)}
+.contact .bg{object-position:50% 35%}
+.contact .pad{justify-content:flex-end;gap:2.2cqw}
+.contact .mark{width:22cqw;height:9.5cqw;margin-left:-.4cqw}
+.contact .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:4cqw}
+.lines{display:grid;grid-template-columns:auto auto;gap:1.2cqw 3cqw}
+.lines div{display:flex;flex-direction:column;gap:.4cqw;border-top:1px solid rgba(255,255,255,.2);padding-top:.9cqw}
+.lines div:nth-child(2){grid-column:1/3;grid-row:2}
+.lines b{font:700 1.8cqw/1.15 var(--body);user-select:all}
+
+/* ---------- phone: reflow each slide to natural height ---------- */
+@media (max-width:760px){
+  .slide{aspect-ratio:auto;width:100%}
+  .slide > *{position:relative}
+  .slide > .orbs,.slide > .shade,.slide > .bg,.slide > .runmark{position:absolute}
+  .pad{padding:28px 20px;gap:18px}
+  .eyebrow{font-size:11px}
+  .h1{font-size:14cqw}.h2{font-size:10cqw}.h3{font-size:6cqw}
+  .lede{font-size:17px;max-width:none}.small{font-size:14px}
+  .watch{font-size:15px;gap:6px;border-bottom-width:1.5px;padding-bottom:3px}
+  .runmark{width:72px;height:31px;right:16px;bottom:16px}
+  .runmark.top{top:18px;bottom:auto}
+  .cover{display:flex}.cover .pad{flex:1}
+  .cover .mark{width:62cqw;height:26.7cqw}
+  .intro{display:flex;flex-direction:column-reverse}
+  .intro .frame{width:100%;height:auto;aspect-ratio:9/16;max-height:80svh}
+  .contact{min-height:110cqw;display:flex}.contact .pad{flex:1}
+  .contact .foot{flex-direction:column;align-items:flex-start;gap:18px}
+  .lines{grid-template-columns:1fr}.lines div:nth-child(2){grid-column:auto;grid-row:auto}
+  .intro .pad{right:auto;padding-bottom:28px}
+  .skills li{font-size:13px;padding:8px 12px}
+  .ff{min-height:120cqw;display:flex}.ff .pad{flex:1}
+  .ff .top{flex-direction:column;gap:6px}
+  .ff .bottom{flex-direction:column;align-items:flex-start;gap:16px}
+  .ff .side{max-width:none}
+  .cases{flex-direction:column}
+  .case.wide,.case.tall{width:100%}
+  .case.tall .media{width:60%}
+  .stack .h3,.card .h3{font-size:5cqw}
+  .cards{grid-template-columns:1fr 1fr;gap:12px}
+  .cut{height:auto;aspect-ratio:3/4}
+  .cut .ph span{font-size:9px}
+  .music b{font-size:15px}
+  .films .pad{flex-direction:column;align-items:stretch}
+  .films .stagewrap{width:100%}
+  .films .nowbar{flex-direction:column;align-items:flex-start;gap:10px}
+  .stage .big{width:64px;height:64px}.stage .big::before{border-left-width:20px;border-top-width:12px;border-bottom-width:12px;margin-left:5px}
+  .playlist{max-height:62svh;padding-right:4px;gap:6px}
+  .playlist button{grid-template-columns:110px 1fr;gap:12px;padding:6px;border-radius:8px}
+  .playlist b{font-size:15px}.playlist small{font-size:10px}.playlist .th i{font-size:8px}
+  .exchange{display:flex;flex-direction:column-reverse}
+  .exchange .frame{width:100%;height:auto;aspect-ratio:9/16;max-height:80svh}
+  .exchange .pad{right:auto}
+  .exchange .h1{font-size:13cqw}
+  .play{font-size:15px;padding:12px 18px 12px 14px;gap:10px}
+  .play::before{border-left-width:11px;border-top-width:7px;border-bottom-width:7px}
+  .exchange .foot{grid-template-columns:1fr;gap:14px;padding-top:16px}
+  .exchange .foot b{font-size:16px}
+  .clients .body{grid-template-columns:1fr}
+  .shots{flex-direction:row}.shots figure{flex:1}
+  .logos{grid-template-columns:repeat(2,1fr);grid-auto-rows:88px;gap:8px}
+  .logo .nm{font-size:14px}.logo .rl{font-size:9px}
+  .shots figcaption{font-size:9px}
+  .contact .mark{width:46cqw;height:20cqw}
+  .lines b{font-size:18px}
+}
+@media (prefers-reduced-motion:reduce){.orb{animation:none}.mono{transition:none}}
+</style>
+
+<nav class="bar" aria-label="Fraction">
+  <span class="mark" role="img" aria-label="Fraction"></span>
+  </nav>
+
+<main class="deck" id="deck">
+
+  <!-- 1 COVER: Fashion Film '26, edge to edge -->
+  <section class="slide cover media-slide" aria-label="Cover">
+    <video class="bg mono" src="media/ff-loop.mp4" poster="media/ff-loop-poster.webp" muted loop playsinline preload="metadata" aria-label="Fashion Film 2026"></video>
+    <div class="shade"></div>
+    <div class="pad">
+      <span class="mark" role="img" aria-label="Fraction"></span>
+      <p class="lede">A Mumbai dance collective that choreographs, directs, shoots and edits films for brands, artists and itself.</p>
+    </div>
+  </section>
+
+  <!-- 2 INTRO -->
+  <section class="slide intro" aria-label="The collective">
+    <div class="pad">
+      <p class="eyebrow">The collective</p>
+      <h2 class="h2">Dancers who<br><span class="pink">make the film</span><br>too.</h2>
+      <p class="lede">Every member carries a second craft. Together the team covers the whole production, from the first count to the final grade.</p>
+      <ul class="skills">
+        <li>Choreography</li><li>Direction</li><li>Cinematography</li><li>Editing</li><li class="brk" aria-hidden="true"></li><li>Styling &amp; costume</li><li>Music</li><li>Marketing</li>
+      </ul>
+    </div>
+    <div class="frame"><video class="mono" src="media/bebo.mp4" poster="media/bebo-poster.webp" muted loop playsinline preload="metadata" aria-label="Fraction crew dancing in front of a graffiti wall"></video></div>
+  </section>
+
+  <!-- 3 FASHION FILM -->
+  <section class="slide ff media-slide" aria-label="Fashion Film 2026">
+    <video class="bg mono" src="media/ff-loop2.mp4" poster="media/ff-loop2-poster.webp" muted loop playsinline preload="metadata" aria-label="Fashion Film 2026, the collective in tailoring on the shore"></video>
+    <div class="shade"></div>
+    <div class="pad">
+      <div class="top"><p class="eyebrow">Self-produced · 2026</p><p class="eyebrow">Horizontal · Vertical · YouTube cut</p></div>
+      <div class="bottom">
+        <h2 class="h1">Fashion<br>Film ’26</h2>
+        <div class="side">
+          <p class="small">Produced, choreographed and styled by Fraction. Tailoring in slate, navy and charcoal against the sea at blue hour.</p>
+          <button class="play" type="button" data-src="media/ff-preview.mp4" data-title="Fashion Film ’26" data-link="https://drive.google.com/drive/folders/156qvhiV4oEejiGJ3RKOp1GNAXTfyrSbl">Play film</button>
+          <div class="links">
+            <a class="watch" href="https://drive.google.com/file/d/1u9PPbxMNm-GYIjbCVc7Xj17oBNj27EQm/view" target="_blank" rel="noopener">Watch 16:9</a>
+            <a class="watch" href="https://drive.google.com/file/d/1zSDPjlRtqqebGjZhawg_U0rnV_OAjbjN/view" target="_blank" rel="noopener">Watch 9:16</a>
+            <a class="watch" href="https://drive.google.com/drive/folders/156qvhiV4oEejiGJ3RKOp1GNAXTfyrSbl" target="_blank" rel="noopener">Stills</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 BRANDS -->
+  <section class="slide brands" aria-label="Brand films">
+    <div class="pad">
+      <div class="head">
+        <h2 class="h2">Brand films</h2>
+        <p class="small" style="max-width:30cqw">Concept to delivery in house: direction, choreography, shoot and edit.</p>
+      </div>
+      <div class="cases">
+        <article class="case wide">
+          <div class="media"><video class="mono" src="media/kameezing.mp4" poster="media/kameezing-poster.webp" muted loop playsinline preload="metadata"></video></div>
+          <div class="meta"><h3 class="h3">Kameezing</h3><a class="watch" href="https://drive.google.com/file/d/1-MhSileXfluf2xsWMEDwWiIwKIus7_jN/view" target="_blank" rel="noopener">Watch</a></div>
+          <p class="small">Fashion film for the label’s block-print shirts. Two brand films for social.</p>
+        </article>
+        <article class="case tall">
+          <div class="media"><video class="mono" src="media/fastandup.mp4" poster="media/fastandup-poster.webp" muted loop playsinline preload="metadata"></video></div>
+          <div class="meta"><h3 class="h3">Fast&amp;Up</h3><a class="watch" href="https://drive.google.com/file/d/10fDIy6hIRUFmTQFtrC_J2JBtZXr5hwqd/view" target="_blank" rel="noopener">Watch</a></div>
+        </article>
+        <div class="stack">
+          <div class="item"><p class="eyebrow">Fast&amp;Up</p><h3 class="h3">7th anniversary ad film</h3><p class="small">Production, direction, shoot and edit. Four more brand films for social, including Good Eatz.</p></div>
+          <div class="item"><p class="eyebrow">Sharjah Warriors · ILT20 UAE</p><h3 class="h3">Ad film choreography</h3><p class="small">Choreography and performance.</p></div>
+          <div class="item"><p class="eyebrow">The Souled Store</p><h3 class="h3">Dance-led brand film</h3><p class="small">Direction, production, shoot and edit.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 CREATORS: drop cutouts at media/creators/<slug>.png -->
+  <section class="slide creators" aria-label="Creators">
+    <div class="pad">
+      <div class="head">
+        <h2 class="h2">On set with<br><span class="pink">top creators</span></h2>
+        <p class="eyebrow">Creator collaborations</p>
+      </div>
+      <div class="cards" id="creatorCards"></div>
+      <div class="music">
+        <span class="eyebrow">Music videos &amp; promotions</span>
+        <b>Nikhil &amp; Rishabh</b><b>Jaadu</b><b>Anant Khamkar</b><b>Riya Duggal</b><b>RuhFikra</b>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 DANCE FILMS: playlist (entries in FILMS below) -->
+  <section class="slide films" aria-label="Dance films">
+    <div class="pad">
+      <div class="stagewrap">
+        <div class="stage" id="stage">
+          <video id="fv" class="mono" src="media/bm-loop.mp4" poster="media/bm-thumb.webp" muted loop playsinline preload="metadata"></video>
+          <button class="big" type="button" id="fplay" aria-label="Play preview"></button>
+          <div class="msg"><p class="eyebrow">Preview coming</p><h3 class="h3" id="fmsg"></h3><a class="watch" id="fmsglink" href="#" target="_blank" rel="noopener">Watch on Drive</a></div>
+        </div>
+        <div class="nowbar">
+          <div><p class="eyebrow" id="fk"></p><h3 class="h3" id="ft"></h3></div>
+          <a class="watch" id="fl" href="#" target="_blank" rel="noopener">Full film</a>
+        </div>
+      </div>
+      <ol class="playlist" id="playlist" aria-label="Films"></ol>
+    </div>
+  </section>
+
+  <!-- 8 EXCHANGE -->
+  <section class="slide exchange" aria-label="Exclusive Exchange">
+    <div class="frame"><video class="mono" src="media/ee-loop.mp4" poster="media/ee-loop-poster.webp" muted loop playsinline preload="metadata" aria-label="Exclusive Exchange class footage"></video></div>
+    <div class="pad">
+      <p class="eyebrow">Programme · Hosted by Fraction · Edition 2</p>
+      <h2 class="h1">Exclusive<br><span class="pink">Exchange</span></h2>
+      <div class="foot">
+        <div><b>Guest faculty</b><p class="small">A faculty member from another dance studio leads a class at Fraction.</p></div>
+        <div><b>Open room</b><p class="small">Artists from different backgrounds train together and share their craft.</p></div>
+        <div><b>After movie</b><p class="small">Classes and the faculty in their own words.</p></div>
+      </div>
+      <button class="play" type="button" data-src="media/ee-preview.mp4" data-title="Exclusive Exchange · Edition 2" data-link="https://drive.google.com/file/d/1Di_B6sYDkLTVpzFda9utr1wu00qlpCQU/view">Play after movie</button>
+    </div>
+  </section>
+
+  <!-- 9 WORKED WITH: drop logos at media/logos/<slug>.png, photos at media/clients/ -->
+  <section class="slide clients" aria-label="Worked with">
+    <div class="pad">
+      <h2 class="h2">Worked with</h2>
+      <div class="body">
+        <div class="shots">
+          <figure><img class="mono" src="media/km-wide.webp" alt="Kameezing shoot on a rooftop"><figcaption>Kameezing</figcaption></figure>
+          <figure><img class="mono" src="media/imap-stage.webp" alt="Fraction on stage at the iMAP Annual Jam"><figcaption>iMAP Annual Jam</figcaption></figure>
+        </div>
+        <div class="logos" id="logoWall"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 CONTACT: group still, full bleed -->
+  <section class="slide contact media-slide" aria-label="Contact">
+    <img class="bg mono" src="media/ff-01574.webp" alt="The Fraction collective on the shore, Fashion Film 2026">
+    <div class="shade"></div>
+    <div class="pad">
+      <span class="mark" role="img" aria-label="Fraction"></span>
+      <div class="foot">
+        <h2 class="h2">Let’s make<br>the <span class="pink">next one.</span></h2>
+        <div class="lines">
+          <div><span class="eyebrow">Email</span><b>fractioncrew@gmail.com</b></div>
+          <div><span class="eyebrow">Phone</span><b>+91 96642 76169 · +91 79779 67076</b></div>
+          <div><span class="eyebrow">Instagram</span><b><a href="https://instagram.com/team.fraction" target="_blank" rel="noopener" style="text-decoration:none">@team.fraction</a></b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<dialog class="player" id="player" aria-label="Film preview">
+  <div class="wrap">
+    <video id="pv" controls playsinline preload="none"></video>
+    <div class="ctl"><b id="pt"></b><a id="pl" href="#" target="_blank" rel="noopener">Full film on Drive ↗</a><button class="x" type="button" id="px">Close</button></div>
+    <p class="note">Preview encode · full quality on Drive</p>
+  </div>
+</dialog>
+
+<script>
+/* ---- slots: add a file with the slug as its name and it replaces the placeholder ---- */
+const CREATORS=[
+  ["Yashraj Mukhate","yashraj-mukhate"],["Just Neel Things","just-neel-things"],
+  ["Prosenjit Kundu","prosenjit-kundu"],["Ruhee Dosani","ruhee-dosani"]
+];
+// [name, logo slug, role, full video link or "" when the file is still missing]
+const CLIENTS=[
+  ["Fast&Up","fastandup","Ad film · Brand films","https://drive.google.com/file/d/10fDIy6hIRUFmTQFtrC_J2JBtZXr5hwqd/view"],
+  ["Kameezing","kameezing","Fashion films","https://drive.google.com/file/d/1-MhSileXfluf2xsWMEDwWiIwKIus7_jN/view"],
+  ["The Souled Store","the-souled-store","Brand film",""],
+  ["Sharjah Warriors","sharjah-warriors","ILT20 ad film",""],
+  ["Airtel","airtel","Showcase 2022 · 2023",""],
+  ["iMAP","imap","Annual Jam showcase","https://drive.google.com/file/d/1b_HZUwgLZbLA9Z2V4EBTm1M1h_bYPL37/view"],
+  ["Jaadu","jaadu","Music video",""],
+  ["Anant Khamkar","anant-khamkar","Music video",""]
+];
+const silhouette='<svg viewBox="0 0 100 120" aria-hidden="true"><circle cx="50" cy="34" r="20" fill="#f8eefb"/><path d="M8 120c2-30 20-46 42-46s40 16 42 46z" fill="#f8eefb"/></svg>';
+function slot(el,src){const i=new Image();i.alt='';i.className='mono';i.onload=()=>el.classList.add('has');i.src=src;el.prepend(i)}
+const cards=document.getElementById('creatorCards');
+CREATORS.forEach(([name,slug])=>{
+  const c=document.createElement('div');c.className='card';
+  c.innerHTML='<div class="cut"><div class="ph">'+silhouette+'<span>Cutout · '+slug+'.png</span></div></div><h3 class="h3">'+name+'</h3><p class="eyebrow">Creator</p>';
+  slot(c.querySelector('.cut'),'media/creators/'+slug+'.png');cards.appendChild(c);
+});
+const wall=document.getElementById('logoWall');
+CLIENTS.forEach(([name,slug,role,link])=>{
+  const d=document.createElement(link?'a':'div');d.className='logo'+(link?'':' nolink');
+  if(link){d.href=link;d.target='_blank';d.rel='noopener';d.setAttribute('aria-label',name+', watch the full video')}
+  d.innerHTML='<span class="nm">'+name.replace('&','&amp;')+'</span><span class="rl">'+role+'</span>'+(link?'':'<span class="pend">Video link needed</span>');
+  slot(d,'media/logos/'+slug+'.png');
+  wall.appendChild(d);
+});
+
+/* ---- orbs: 3–4 per slide, one per cell of a 2x2 grid with jitter, seeded so the layout is stable ---- */
+function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const COLORS=['#ff4fa6','#ff86c4','#ff2d8f','#e0449a'];
+const slides=[...document.querySelectorAll('#deck > .slide')];
+slides.forEach((s,idx)=>{
+  const r=rng(idx*977+13),layer=document.createElement('div');layer.className='orbs';layer.setAttribute('aria-hidden','true');
+  const n=3+(r()<.5?1:0);
+  const cells=[[0,0],[1,0],[0,1],[1,1]].sort(()=>r()-.5).slice(0,n);
+  const sizes=[9,15,23,32].sort(()=>r()-.5);
+  // orbs live on the plain ground only: none on full-bleed photo/video slides,
+  // and on slides with a side frame they stay within the open area left of it
+  if(s.classList.contains('media-slide')) return;
+  const f=s.querySelector(':scope > .frame'), zone=f?(1-f.offsetWidth/s.offsetWidth)*100:100;
+  cells.forEach(([cx,cy],i)=>{
+    const o=document.createElement('div');o.className='orb';
+    const x=(cx*.5+.12+r()*.26)*zone, y=(cy*50+12+r()*26), size=sizes[i];
+    o.style.cssText=`left:${x}%;top:${y}%;width:${size}cqw;height:${size}cqw;--c:${COLORS[i%4]};--o:${.42+r()*.14};--t:${14+r()*10}s;--dx:${(r()-.5)*5}cqw;--dy:${(r()-.5)*4}cqw`;
+    layer.appendChild(o);
+  });
+  s.insertBefore(layer,s.querySelector('.pad'));
+});
+
+/* ---- slide in view: counter, play loops, colour on touch screens ---- */
+const io=new IntersectionObserver(es=>es.forEach(e=>{
+  const s=e.target,on=e.isIntersecting;
+  s.classList.toggle('live',on);
+  s.querySelectorAll('video').forEach(v=>on?(v.muted&&v.play().catch(()=>{})):v.pause());
+}),{threshold:.3});
+slides.forEach(s=>io.observe(s));
+
+/* ---- dance films playlist: add a preview + thumb and the row becomes playable ---- */
+const FILMS=[
+  {t:"Big Magic",k:"Dance film · 90 sec cut",th:"media/bm-thumb.webp",src:"media/bm-preview.mp4",loop:"media/bm-loop.mp4",link:"https://drive.google.com/file/d/1acDWaoTfTBzJMs7BYr0LBbE1sm6u75bL/view"},
+  {t:"Manjha",k:"Dance film · 90 sec cut",th:"media/mj-thumb.webp",src:"media/mj-preview.mp4",link:"https://drive.google.com/file/d/1VEAoo6yDGeYRq0FK_6Z9c8SPoD3JiH-r/view"},
+  {t:"Sajna Ve · Bombay Rockers",k:"Music visual · 46 sec",th:"media/sv-dance.webp",src:"media/sv-preview.mp4",link:"https://drive.google.com/file/d/1oS6UdZAxPV_oqi-AIYq5fFeA-v0YbCqW/view"},
+  {t:"Bebo",k:"Reel · 27 sec",th:"media/bb-jump.webp",pos:"50% 72%",src:"media/bb-preview.mp4",link:"https://drive.google.com/file/d/1s2g6XT5G0OKa2NgqQZJr6hEqvpcPUkdJ/view"},
+  {t:"Dhurandhar · Jogi",k:"Music video · 45 sec",th:"media/dh-thumb.webp",src:"media/dh-preview.mp4",link:"https://drive.google.com/file/d/1xeY0_sowezvnXTvUyiyA6G2RKYYiDi0w/view"},
+  {t:"Pasoori",k:"Choreography · 45 sec",th:"media/ps-thumb.webp",src:"media/ps-preview.mp4",link:"https://drive.google.com/file/d/1xU51OneaEo5a5v9_Hjl6MYmPZeMni7MM/view"},
+  {t:"Chal Bombay",k:"Choreography · 45 sec",th:"media/cb-thumb.webp",src:"media/cb-preview.mp4",link:"https://drive.google.com/file/d/1267g0MK7yVTAQbhlAUDuAh0nFX3PLJBM/view"},
+  {t:"Behka Main Behka",k:"Dance visual · 45 sec",th:"media/bk-thumb.webp",src:"media/bk-preview.mp4",link:"https://drive.google.com/file/d/1HYT4orkt3Mjn0f8PEkPs1hWnzEG6IujC/view"},
+  {t:"By My Side",k:"Choreography · 45 sec",th:"media/bs-thumb.webp",src:"media/bs-preview.mp4",link:"https://drive.google.com/file/d/1Ug5JlzfBTp9mPRi_4IlyaiK9cPO03Fgl/view"},
+  {t:"Funk Song",k:"Choreography · 45 sec",th:"media/fs-thumb.webp",src:"media/fs-preview.mp4",link:"https://drive.google.com/file/d/15-Gp2q_knUIwzMJ7j8W9qFH2a5Fr3van/view"},
+  {t:"Project Throne",k:"Choreography · 45 sec",th:"media/pt-thumb.webp",src:"media/pt-preview.mp4",link:"https://drive.google.com/file/d/1XWgKTSum6rp7Jcppx12CBe3NU65wYTxV/view"},
+  {t:"Cham Cham",k:"Music video · 45 sec",th:"media/cc-thumb.webp",src:"media/cc-preview.mp4",link:"https://drive.google.com/file/d/1U06lXbnP7Kv0ULUJvGqiiAxYrSrXYpki/view"},
+  {t:"Mere Dil Vich Hai Hum Tum",k:"Choreography · 40 sec",th:"media/md-thumb.webp",src:"media/md-preview.mp4",link:"https://drive.google.com/file/d/1o-VeGjbz8em_tU8E5rtCoNxydW-w3MGG/view"},
+  {t:"Dynamite · BTS",k:"Choreography · 40 sec",th:"media/dy-thumb.webp",src:"media/dy-preview.mp4",link:"https://drive.google.com/file/d/1WFlgkPJaAUDUAaDkF2UmopiHKIYF17HI/view"},
+  {t:"Silent Poison",k:"Stage · Evolution 2 · 45 sec",th:"media/sp-thumb.webp",src:"media/sp-preview.mp4",link:"https://drive.google.com/file/d/12hDgQVGBTYqI-YriWgWZVPXxnJ4vewnO/view"}
+];
+const stage=document.getElementById('stage'),fv=document.getElementById('fv'),plist=document.getElementById('playlist');
+function selectFilm(i,play){
+  const f=FILMS[i];
+  plist.querySelectorAll('button').forEach((b,j)=>b.setAttribute('aria-current',String(i===j)));
+  document.getElementById('ft').textContent=f.t;document.getElementById('fk').textContent=f.k;document.getElementById('fl').href=f.link;
+  stage.classList.remove('pending','playing');
+  if(!f.src){fv.pause();stage.classList.add('pending');document.getElementById('fmsg').textContent=f.t;document.getElementById('fmsglink').href=f.link;return}
+  if(play){
+    fv.loop=false;fv.muted=false;fv.controls=true;fv.poster=f.th;fv.src=f.src;fv.classList.remove('mono');
+    stage.classList.add('playing');fv.play().catch(()=>{});
+  }else{
+    fv.controls=false;fv.muted=true;fv.loop=true;fv.classList.add('mono');fv.poster=f.th;fv.src=f.loop||f.src;if(stage.closest('.slide').classList.contains('live'))fv.play().catch(()=>{});
+    stage.dataset.idx=i;
+  }
+  stage.dataset.idx=i;
+}
+FILMS.forEach((f,i)=>{
+  const li=document.createElement('li'),b=document.createElement('button');b.type='button';
+  b.innerHTML='<span class="th">'+(f.th?'<img class="mono" src="'+f.th+'" alt="" loading="lazy" style="object-position:'+(f.pos||'50% 50%')+'">':'<i>Preview<br>coming</i>')+'</span><span><b></b><small></small></span>';
+  b.querySelector('b').textContent=f.t;b.querySelector('small').textContent=f.k;
+  b.onclick=()=>selectFilm(i,true);li.appendChild(b);plist.appendChild(li);
+});
+document.getElementById('fplay').onclick=()=>selectFilm(+stage.dataset.idx||0,true);
+selectFilm(0,false);
+
+/* ---- in-deck player ---- */
+const dlg=document.getElementById('player'),pv=document.getElementById('pv');
+document.querySelectorAll('.play').forEach(b=>b.addEventListener('click',()=>{
+  pv.src=b.dataset.src;document.getElementById('pt').textContent=b.dataset.title;document.getElementById('pl').href=b.dataset.link;
+  dlg.showModal();pv.play().catch(()=>{});
+}));
+function closePlayer(){pv.pause();pv.removeAttribute('src');pv.load();if(dlg.open)dlg.close()}
+document.getElementById('px').onclick=closePlayer;
+dlg.addEventListener('close',()=>{pv.pause()});
+dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.classList.contains('wrap'))closePlayer()});
+
+/* ---- top bar: absent on the cover, fades in as the cover scrolls away ---- */
+const bar=document.querySelector('.bar'),cover=document.querySelector('.cover');
+function barFade(){const h=cover.offsetHeight,t=(scrollY-h*.55)/(h*.35);bar.style.setProperty('--bar',Math.max(0,Math.min(1,t)).toFixed(3))}
+addEventListener('scroll',barFade,{passive:true});addEventListener('resize',barFade);barFade();
+
+/* ---- cover line: exactly the logo's width, largest size that stays on two lines ---- */
+function fitLede(){
+  const m=cover.querySelector('.mark'),l=cover.querySelector('.lede');if(!m||!l)return;
+  l.style.width=m.offsetWidth+'px';let lo=6,hi=40;
+  while(hi-lo>.25){const f=(lo+hi)/2;l.style.fontSize=f+'px';(l.offsetHeight<=f*1.3*2+2)?lo=f:hi=f}
+  l.style.fontSize=lo+'px';
+}
+document.fonts?document.fonts.ready.then(fitLede):fitLede();addEventListener('resize',fitLede);fitLede();
+</script>
