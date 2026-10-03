@@ -122,7 +122,7 @@ a{color:inherit}
 .cut{position:relative;height:20cqw;border-radius:.8cqw;overflow:hidden;
   background:radial-gradient(70% 60% at 50% 85%,rgba(255,79,166,.45),transparent 70%),linear-gradient(180deg,rgba(155,134,255,.10),rgba(255,79,166,.08));
   border:1px solid var(--line)}
-.cut img{position:absolute;inset:auto 0 0 0;width:100%;height:100%;object-fit:contain;object-position:50% 100%;display:none}
+.cut img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;display:none}
 .cut.has img{display:block}
 .cut .ph{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:.8cqw;padding-bottom:1.4cqw}
 .cut .ph svg{width:62%;height:auto;opacity:.32}
@@ -191,7 +191,7 @@ a{color:inherit}
 .logos{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:1cqw}
 .logo{position:relative;border:1px solid var(--line);border-radius:.6cqw;background:rgba(248,238,251,.03);
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6cqw;padding:1.2cqw;text-align:center}
-.logo img{max-width:72%;max-height:55%;object-fit:contain;display:none}
+.logo img{max-width:74%;max-height:46%;object-fit:contain;display:none}
 .logo.has img{display:block}
 .logo .nm{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:1.45cqw;line-height:1.05;letter-spacing:-.01em}
 .logo.has .nm{display:none}
@@ -237,15 +237,18 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
   .cover .shade{background:radial-gradient(90% 55% at 50% 50%,rgba(8,3,13,.78),rgba(8,3,13,.35) 75%),linear-gradient(0deg,rgba(8,3,13,.8),transparent 35%)}
 
   /* landscape films and photos become full-width 16:9 blocks above their text */
-  .ff,.contact{display:flex;flex-direction:column}
-  .ff > .bg,.contact > .bg{position:relative;inset:auto;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover}
-  .contact > .bg{aspect-ratio:3/2}
-  .ff > .shade,.contact > .shade{display:none}
-  .ff .pad,.contact .pad{padding-top:28px}
+  .contact{display:flex;flex-direction:column}
+  .contact > .bg{position:relative;inset:auto;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
+  .contact > .shade{display:none}
+  .contact .pad{padding-top:28px}
+  .ff{height:100vh;height:100svh;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end}
+  .ff > .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .ff > .shade{background:linear-gradient(0deg,rgba(8,3,13,.96) 0%,rgba(8,3,13,.72) 34%,rgba(8,3,13,.15) 62%,transparent 75%)}
+  .ff .pad{padding:0 20px 40px;justify-content:flex-end;gap:16px}
   .ff .top{flex-direction:column;gap:6px}
   .ff .bottom{flex-direction:column;align-items:flex-start;gap:18px}
   .ff .side{max-width:none}
-  .ff .eyebrow,.ff .small{color:var(--muted)}.ff .pad{color:var(--ink)}
+  .ff .pad{color:#fff}.ff .eyebrow{color:rgba(255,255,255,.7)}.ff .small{color:rgba(255,255,255,.82)}
 
   /* intro and exchange: words first, then the vertical film */
   .intro{display:flex;flex-direction:column}
@@ -314,7 +317,7 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
 
   <!-- 1 COVER: Fashion Film '26, edge to edge -->
   <section class="slide cover media-slide" aria-label="Cover">
-    <video class="bg mono" src="media/ff-loop.mp4" poster="media/ff-loop-poster.webp" muted loop playsinline preload="metadata" aria-label="Fashion Film 2026"></video>
+    <video class="bg mono" data-dsrc="media/ff-loop.mp4" data-dposter="media/ff-loop-poster.webp" data-msrc="media/ffv-loop.mp4" data-mposter="media/ffv-loop-poster.webp" muted loop playsinline preload="metadata" aria-label="Fashion Film 2026"></video>
     <div class="shade"></div>
     <div class="pad">
       <span class="mark" role="img" aria-label="Fraction"></span>
@@ -337,7 +340,7 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
 
   <!-- 3 FASHION FILM -->
   <section class="slide ff media-slide" aria-label="Fashion Film 2026">
-    <video class="bg mono" src="media/ff-loop2.mp4" poster="media/ff-loop2-poster.webp" muted loop playsinline preload="metadata" aria-label="Fashion Film 2026, the collective in tailoring on the shore"></video>
+    <video class="bg mono" data-dsrc="media/ff-loop2.mp4" data-dposter="media/ff-loop2-poster.webp" data-msrc="media/ffv-loop2.mp4" data-mposter="media/ffv-loop2-poster.webp" muted loop playsinline preload="metadata" aria-label="Fashion Film 2026, the collective in tailoring on the shore"></video>
     <div class="shade"></div>
     <div class="pad">
       <div class="top"><p class="eyebrow">Self-produced · 2026</p><p class="eyebrow">Horizontal · Vertical · YouTube cut</p></div>
@@ -345,7 +348,7 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
         <h2 class="h1">Fashion<br>Film ’26</h2>
         <div class="side">
           <p class="small">Produced, choreographed and styled by Fraction. Tailoring in slate, navy and charcoal against the sea at blue hour.</p>
-          <button class="play" type="button" data-src="media/ff-preview.mp4" data-title="Fashion Film ’26" data-link="https://drive.google.com/drive/folders/156qvhiV4oEejiGJ3RKOp1GNAXTfyrSbl">Play film</button>
+          <button class="play" type="button" data-src="media/ff-preview.mp4" data-dsrc="media/ff-preview.mp4" data-msrc="media/ffv-preview.mp4" data-title="Fashion Film ’26" data-link="https://drive.google.com/drive/folders/156qvhiV4oEejiGJ3RKOp1GNAXTfyrSbl">Play film</button>
           <div class="links">
             <a class="watch" href="https://drive.google.com/file/d/1u9PPbxMNm-GYIjbCVc7Xj17oBNj27EQm/view" target="_blank" rel="noopener">Watch 16:9</a>
             <a class="watch" href="https://drive.google.com/file/d/1zSDPjlRtqqebGjZhawg_U0rnV_OAjbjN/view" target="_blank" rel="noopener">Watch 9:16</a>
@@ -471,6 +474,19 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
 </dialog>
 
 <script>
+/* ---- phone-only cuts: elements with data-msrc swap to the vertical version under 760px ---- */
+const phone=matchMedia('(max-width:760px)');
+function applySources(){
+  document.querySelectorAll('[data-msrc]').forEach(el=>{
+    const m=phone.matches,src=m?el.dataset.msrc:el.dataset.dsrc;
+    if(el.tagName!=='VIDEO'){el.dataset.src=src;return}
+    if(el.getAttribute('src')===src)return;
+    el.poster=(m?el.dataset.mposter:el.dataset.dposter)||'';el.src=src;
+    if(el.closest('.slide')?.classList.contains('live'))el.play().catch(()=>{});
+  });
+}
+applySources();phone.addEventListener('change',applySources);
+
 /* ---- slots: add a file with the slug as its name and it replaces the placeholder ---- */
 const CREATORS=[
   ["Yashraj Mukhate","yashraj-mukhate"],["Just Neel Things","just-neel-things"],
@@ -492,8 +508,8 @@ function slot(el,src){const i=new Image();i.alt='';i.className='mono';i.onload=(
 const cards=document.getElementById('creatorCards');
 CREATORS.forEach(([name,slug])=>{
   const c=document.createElement('div');c.className='card';
-  c.innerHTML='<div class="cut"><div class="ph">'+silhouette+'<span>Cutout · '+slug+'.png</span></div></div><h3 class="h3">'+name+'</h3><p class="eyebrow">Creator</p>';
-  slot(c.querySelector('.cut'),'media/creators/'+slug+'.png');cards.appendChild(c);
+  c.innerHTML='<div class="cut"><div class="ph">'+silhouette+'<span>Photo · '+slug+'.webp</span></div></div><h3 class="h3">'+name+'</h3><p class="eyebrow">Creator</p>';
+  slot(c.querySelector('.cut'),'media/creators/'+slug+'.webp');cards.appendChild(c);
 });
 const wall=document.getElementById('logoWall');
 CLIENTS.forEach(([name,slug,role,link])=>{

@@ -17,8 +17,10 @@ To use a custom domain (for example `portfolio.fraction.in`), add it in Settings
 
 ## Adding content later
 
-- **Creator cutouts:** add transparent PNGs to `media/creators/`, named `yashraj-mukhate.png`, `just-neel-things.png`, `prosenjit-kundu.png` and `ruhee-dosani.png`. They replace the placeholders automatically.
-- **Client logos:** add PNGs to `media/logos/`, named `fastandup.png`, `kameezing.png`, `the-souled-store.png`, `sharjah-warriors.png`, `airtel.png`, `imap.png`, `jaadu.png` and `anant-khamkar.png`. Each logo replaces its name card.
+- **Phone-only video:** the title and Fashion Film sections play a vertical cut on phones (`media/ffv-*.mp4`) and the landscape cut on larger screens. Any `<video>` with `data-msrc` and `data-dsrc` switches the same way.
+
+- **Creator photos:** square WebP images in `media/creators/`, named `yashraj-mukhate.webp`, `just-neel-things.webp`, `prosenjit-kundu.webp` and `ruhee-dosani.webp`. To add a creator, add a line to `const CREATORS` in `index.html` and drop in a matching file.
+- **Client logos:** transparent PNGs in `media/logos/` (Fast&Up, Kameezing and iMAP are in place); add more, named `fastandup.png`, `kameezing.png`, `the-souled-store.png`, `sharjah-warriors.png`, `airtel.png`, `imap.png`, `jaadu.png` and `anant-khamkar.png`. Each logo replaces its name card.
 - **Client video links:** in `index.html`, find `const CLIENTS` and paste the video URL as the fourth value on that client's line. An empty `""` shows "Video link needed".
 - **Dance films:** in `index.html`, find `const FILMS`. Each line is one playlist row: title, label, thumbnail, preview clip and the full-film link.
 
