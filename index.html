@@ -56,6 +56,7 @@ a{color:inherit}
 .pink{color:var(--pink)}
 .watch{display:inline-flex;align-items:center;gap:.5cqw;font:600 1.15cqw/1 var(--body);text-decoration:none;border-bottom:.12cqw solid currentColor;padding-bottom:.35cqw;white-space:nowrap}
 .watch:hover{color:var(--pink)}
+button.watch{background:none;border:0;border-bottom:.12cqw solid currentColor;color:inherit;cursor:pointer;padding:0 0 .35cqw}
 .watch::after{content:"↗"}
 .runmark{position:absolute;z-index:3;right:4cqw;bottom:3.4cqw;width:8.5cqw;height:3.7cqw}
 .runmark.top{top:4.4cqw;bottom:auto}
@@ -108,8 +109,7 @@ a{color:inherit}
 .brands .pad{gap:1.6cqw;padding-block:4.2cqw 3.6cqw}
 .brands .head{display:flex;justify-content:space-between;align-items:flex-end;gap:3cqw}
 /* collage: wide Kameezing, tall Fast&Up at true 9:16, two short tiles stacked; captions sit inside each tile */
-.cases{--ch:27cqw;display:grid;grid-template-columns:1.3fr calc(var(--ch)*9/16) 1fr;grid-template-rows:var(--ch);gap:1.3cqw}
-.stack{display:grid;grid-template-rows:1fr 1fr;gap:1.3cqw;min-height:0}
+.cases{--ch:27cqw;display:grid;grid-template-columns:1fr repeat(3,calc(var(--ch)*9/16));grid-template-rows:var(--ch);gap:1.3cqw}
 .case{position:relative;overflow:hidden;border-radius:.8cqw;background:#000;border:1px solid var(--line);min-height:0}
 .case .media{position:absolute;inset:0}
 .case .media video{width:100%;height:100%;display:block;object-fit:cover}
@@ -282,9 +282,7 @@ a.brand:hover{transform:translateY(-.2cqw)}
   .cases{display:flex;flex-direction:row;align-items:stretch;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
     margin:0 -20px;padding:0 20px;scroll-padding:0 20px;scrollbar-width:none}
   .cases::-webkit-scrollbar{display:none}
-  .stack{display:contents}
-  .case{flex:0 0 100%;min-width:0;scroll-snap-align:start;aspect-ratio:4/3;border-radius:12px}
-  .case.fu .media video{object-fit:contain}
+  .case{flex:0 0 100%;min-width:0;scroll-snap-align:start;aspect-ratio:4/5;border-radius:12px}
   .cap{padding:40px 16px 14px;gap:6px}
   .cap .eyebrow{font-size:10px}
   .case .cap .h3{font-size:20px}
@@ -406,17 +404,14 @@ a.brand:hover{transform:translateY(-.2cqw)}
           <div class="media"><video class="mono" src="media/fastandup.mp4" poster="media/fastandup-poster.webp" muted loop playsinline preload="metadata"></video></div>
           <div class="cap"><p class="eyebrow">Good Eatz</p><div class="row"><h3 class="h3">Fast&amp;Up</h3><a class="watch" href="https://drive.google.com/file/d/10fDIy6hIRUFmTQFtrC_J2JBtZXr5hwqd/view" target="_blank" rel="noopener">Watch</a></div></div>
         </article>
-        <div class="stack">
-          <!-- placeholder: swap .media for a <video> and add a Watch link when the film arrives -->
-          <article class="case soon">
-            <div class="media"></div>
-            <div class="cap"><p class="eyebrow">Fast&amp;Up</p><div class="row"><h3 class="h3">7th anniversary ad film</h3><span class="tag">Film coming soon</span></div></div>
-          </article>
-          <article class="case soon">
-            <div class="media"></div>
-            <div class="cap"><p class="eyebrow">The Souled Store</p><div class="row"><h3 class="h3">Dance-led brand film</h3><span class="tag">Film coming soon</span></div></div>
-          </article>
-        </div>
+        <article class="case fu">
+          <div class="media"><video class="mono" src="media/fu7-loop.mp4" poster="media/fu7-loop-poster.webp" muted loop playsinline preload="metadata"></video></div>
+          <div class="cap"><p class="eyebrow">7th anniversary ad film</p><div class="row"><h3 class="h3">Fast&amp;Up</h3><button class="watch pv" type="button" data-src="media/fu7-film.mp4" data-title="Fast&amp;Up · 7th anniversary ad film">Watch</button></div></div>
+        </article>
+        <article class="case fu">
+          <div class="media"><video class="mono" src="media/tss-loop.mp4" poster="media/tss-loop-poster.webp" muted loop playsinline preload="metadata"></video></div>
+          <div class="cap"><p class="eyebrow">Dance-led brand film</p><div class="row"><h3 class="h3">The Souled Store</h3><button class="watch pv" type="button" data-src="media/tss-film.mp4" data-title="The Souled Store · Dance-led brand film">Watch</button></div></div>
+        </article>
       </div>
       <div class="wstrip">
         <p class="eyebrow">Worked with</p>
@@ -517,7 +512,7 @@ const CREATORS=[
   ["Yashraj Mukhate","media/creators/yashraj-mukhate.webp","media/creators/yashraj-mukhate-group.webp"],
   ["Just Neel Things","media/creators/just-neel-things.webp","media/creators/just-neel-things-group.webp"],
   ["Prosenjit Kundu","media/creators/prosenjit-kundu.webp","media/creators/prosenjit-kundu-group.webp"],
-  ["Ruhee Dosani","media/creators/ruhee-dosani.webp","media/creators/ruhee-dosani.webp"]
+  ["Ruhee Dosani","media/creators/ruhee-dosani.webp","media/creators/ruhee-dosani-group.webp"]
 ];
 // Worked with: [name, logo file, full video link or "", logo height in cqw (evens out wide vs tall marks)]
 const LOGOS=[
@@ -632,7 +627,7 @@ FILMS.forEach((f,i)=>{
 document.getElementById('fplay').onclick=()=>selectFilm(+stage.dataset.idx||0,true);
 /* phones: brand films track; arrows scroll one card, the counter follows the swipe */
 const cases=document.getElementById('cases'),bc=document.getElementById('bc');
-const brandCards=()=>[...cases.querySelectorAll(':scope > .case, .stack > .case')];
+const brandCards=()=>[...cases.querySelectorAll(':scope > .case')];
 function bIndex(){const w=brandCards()[0].offsetWidth+16;return Math.round(cases.scrollLeft/w)}
 function bUpdate(){bc.textContent=(bIndex()+1)+' / '+brandCards().length}
 function bStep(d){const c=brandCards(),n=c.length,i=(bIndex()+d+n)%n,x=c[i].offsetLeft-cases.offsetLeft-20,from=cases.scrollLeft;
@@ -654,8 +649,8 @@ selectFilm(0,false);
 
 /* ---- in-deck player ---- */
 const dlg=document.getElementById('player'),pv=document.getElementById('pv');
-document.querySelectorAll('.play').forEach(b=>b.addEventListener('click',()=>{
-  pv.src=b.dataset.src;document.getElementById('pt').textContent=b.dataset.title;document.getElementById('pl').href=b.dataset.link;
+document.querySelectorAll('.play,.pv').forEach(b=>b.addEventListener('click',()=>{
+  pv.src=b.dataset.src;document.getElementById('pt').textContent=b.dataset.title;const pl=document.getElementById('pl');pl.hidden=!b.dataset.link;if(b.dataset.link)pl.href=b.dataset.link;
   dlg.showModal();pv.play().catch(()=>{});
 }));
 function closePlayer(){pv.pause();pv.removeAttribute('src');pv.load();if(dlg.open)dlg.close()}
