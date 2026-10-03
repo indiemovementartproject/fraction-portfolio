@@ -105,14 +105,14 @@ a{color:inherit}
 .links{display:flex;gap:2cqw;flex-wrap:wrap}
 
 /* 5 brands */
-.brands .pad{gap:2cqw}
+.brands .pad{gap:1.6cqw;padding-block:4.2cqw 3.6cqw}
 .brands .head{display:flex;justify-content:space-between;align-items:flex-end;gap:3cqw}
 .cases{display:flex;gap:1.8cqw;align-items:flex-start}
 .case{display:flex;flex-direction:column;gap:1cqw}
 .case .media{position:relative;overflow:hidden;border-radius:.6cqw;background:#000}
 .case .media video{width:100%;height:100%;display:block;object-fit:cover}
-.case.wide{width:40cqw}.case.wide .media{aspect-ratio:16/9}
-.case.tall{width:12.7cqw}.case.tall .media{aspect-ratio:9/16}
+.case.wide{width:36cqw}.case.wide .media{aspect-ratio:16/9}
+.case.tall{width:11.4cqw}.case.tall .media{aspect-ratio:9/16}
 .case .meta{display:flex;justify-content:space-between;align-items:baseline;gap:1cqw}
 .bnav{display:none}
 .case.tall .meta{flex-direction:column;align-items:flex-start;gap:.7cqw}
@@ -190,18 +190,18 @@ a{color:inherit}
 .player .x{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:none;border:1px solid var(--line);border-radius:999px;padding:10px 14px;cursor:pointer}
 .player .note{font:500 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 
-/* 9 worked with: one endless row of logos, grey at rest, colour on hover */
-.clients{aspect-ratio:auto}
-.clients .pad{position:relative;inset:auto;padding:7cqw 5.4cqw 7.5cqw;gap:1.2cqw}
-.marquee{margin:3.4cqw -5.4cqw 0;overflow:hidden;
-  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
-.track{display:flex;align-items:center;gap:8cqw;width:max-content;padding:1.5cqw 0;animation:marquee 38s linear infinite}
+/* worked with: a slim logo strip under the brand films, grey at rest, colour on hover */
+.wstrip{display:flex;align-items:center;gap:2.6cqw;border-top:1px solid var(--line);padding-top:1.3cqw;margin-top:auto}
+.wstrip .eyebrow{flex:none}
+.marquee{flex:1;min-width:0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.track{display:flex;align-items:center;gap:5cqw;width:max-content;padding:.4cqw 0;animation:marquee 34s linear infinite}
 .marquee:hover .track,.marquee:focus-within .track{animation-play-state:paused}
 @keyframes marquee{to{transform:translateX(-50%)}}
-.brand{flex:none;display:block;height:var(--h,6cqw);transition:transform .4s}
+.brand{flex:none;display:block;height:calc(var(--h,6cqw) * .5);transition:transform .4s}
 .brand img{height:100%;width:auto;display:block;filter:grayscale(1) brightness(1.25) contrast(.9);opacity:.72;transition:filter .5s,opacity .5s}
 .brand:hover img,.brand:focus-visible img{filter:none;opacity:1}
-a.brand:hover{transform:translateY(-.3cqw)}
+a.brand:hover{transform:translateY(-.2cqw)}
 
 /* 10 contact: group photo full bleed, black gradient under the text */
 .contact .shade{background:linear-gradient(0deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 30%,rgba(0,0,0,.2) 58%,transparent 72%)}
@@ -303,11 +303,11 @@ a.brand:hover{transform:translateY(-.3cqw)}
   .playlist .th{border-radius:6px}
   .playlist b{font-size:15px}.playlist small{font-size:11px;margin-top:4px}
 
-  /* worked with */
-  .clients .pad{padding:72px 20px 64px;gap:10px}
-  .marquee{margin:26px -20px 0}
-  .track{gap:44px;padding:10px 0;animation-duration:26s}
-  .brand{height:calc(var(--h,6cqw) * 1.75)}
+  /* worked with strip */
+  .wstrip{flex-direction:column;align-items:flex-start;gap:12px;padding-top:18px;margin-top:8px}
+  .marquee{align-self:stretch;margin:0 -20px}
+  .track{gap:36px;padding:4px 0;animation-duration:24s}
+  .brand{height:calc(var(--h,6cqw) * 1.05)}
 
   /* contact */
   .contact .mark{width:52vw;height:22.4vw}
@@ -399,6 +399,10 @@ a.brand:hover{transform:translateY(-.3cqw)}
           <div class="item"><p class="eyebrow">The Souled Store</p><h3 class="h3">Dance-led brand film</h3><p class="small">Direction, production, shoot and edit.</p></div>
         </div>
       </div>
+      <div class="wstrip">
+        <p class="eyebrow">Worked with</p>
+        <div class="marquee" id="marquee"><div class="track" id="logoTrack"></div></div>
+      </div>
     </div>
   </section>
 
@@ -445,15 +449,6 @@ a.brand:hover{transform:translateY(-.3cqw)}
       <h2 class="h1">Exclusive<br><span class="pink">Exchange</span></h2>
       <p class="lede ee-lede">Fraction invites a teacher from another dance studio to lead a class on its floor. Dancers from every style and studio train side by side, trade ideas and leave as one community.</p>
       <button class="play" type="button" data-src="media/ee-preview.mp4" data-title="Exclusive Exchange · Edition 2" data-link="https://drive.google.com/file/d/1Di_B6sYDkLTVpzFda9utr1wu00qlpCQU/view">Play after movie</button>
-    </div>
-  </section>
-
-  <!-- 9 WORKED WITH: logo carousel, entries in LOGOS below -->
-  <section class="slide clients" aria-label="Worked with">
-    <div class="pad">
-      <p class="eyebrow">Brands · Artists · Stages</p>
-      <h2 class="h2">Worked with</h2>
-      <div class="marquee" id="marquee"><div class="track" id="logoTrack"></div></div>
     </div>
   </section>
 
