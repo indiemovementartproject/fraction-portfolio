@@ -81,7 +81,11 @@ a{color:inherit}
 .cover .shade{background:radial-gradient(60% 55% at 50% 50%,rgba(8,3,13,.62),rgba(8,3,13,.28) 70%),linear-gradient(0deg,rgba(8,3,13,.7),transparent 40%)}
 .cover .pad{align-items:center;justify-content:center;text-align:center;gap:2.6cqw}
 .cover .mark{width:34.8cqw;height:15cqw}
-.cover .lede{max-width:none;text-wrap:balance;line-height:1.3}
+/* scroll cue: a single chevron drifting downward */
+.cue{position:absolute;left:50%;bottom:calc(26px + env(safe-area-inset-bottom,0px));z-index:3;width:48px;height:48px;margin-left:-24px;display:grid;place-items:center;border-radius:50%}
+.cue::before{content:"";width:15px;height:15px;border-right:2px solid rgba(255,255,255,.85);border-bottom:2px solid rgba(255,255,255,.85);rotate:45deg;animation:nudge 2.2s ease-in-out infinite}
+.cue:hover::before{border-color:var(--pink-2)}
+@keyframes nudge{0%,100%{translate:0 -5px;opacity:.45}50%{translate:0 5px;opacity:1}}
 
 /* 2 intro: portrait frame at full height, never cropped (9:16 = 31.64cqw wide) */
 .intro .frame{top:0;right:0;height:100%;width:31.64cqw;z-index:2}
@@ -236,7 +240,7 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
 
   /* cover: still exactly one screen, film cropped to fill; logo and line sized to read */
   .cover{display:flex}
-  .cover > .bg{position:absolute}
+  .cover > .bg,.cover > .cue{position:absolute}
   .cover .pad{flex:1;padding:24px;gap:22px;justify-content:center}
   .cover .mark{width:74vw;height:31.9vw}
   .cover .lede{width:80vw!important;font-size:17px!important;line-height:1.45}
@@ -325,7 +329,7 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
   .lines{grid-template-columns:1fr;gap:14px}.lines div:nth-child(2){grid-column:auto;grid-row:auto}
   .lines b{font-size:18px}
 }
-@media (prefers-reduced-motion:reduce){.orb{animation:none}.mono{transition:none}}
+@media (prefers-reduced-motion:reduce){.cue::before{animation:none}.orb{animation:none}.mono{transition:none}}
 </style>
 </head>
 <body>
@@ -342,12 +346,12 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
     <div class="shade"></div>
     <div class="pad">
       <span class="mark" role="img" aria-label="Fraction"></span>
-      <p class="lede">A Mumbai dance collective that choreographs, directs, shoots and edits films for brands, artists and itself.</p>
     </div>
+    <a class="cue" href="#collective" aria-label="Scroll down"></a>
   </section>
 
   <!-- 2 INTRO -->
-  <section class="slide intro" aria-label="The collective">
+  <section class="slide intro" id="collective" aria-label="The collective">
     <div class="pad">
       <p class="eyebrow">The collective</p>
       <h2 class="h2">Dancers who<br><span class="pink">make the film</span><br>too.</h2>
@@ -660,6 +664,12 @@ dlg.addEventListener('click',e=>{if(e.target===dlg||e.target.classList.contains(
 const bar=document.querySelector('.bar'),cover=document.querySelector('.cover');
 function barFade(){const h=cover.offsetHeight,t=(scrollY-h*.55)/(h*.35);bar.style.setProperty('--bar',Math.max(0,Math.min(1,t)).toFixed(3))}
 addEventListener('scroll',barFade,{passive:true});addEventListener('resize',barFade);barFade();
+
+/* ---- scroll cue ---- */
+document.querySelector('.cue').addEventListener('click',e=>{e.preventDefault();
+  const t=document.getElementById('collective'),y=scrollY;
+  t.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
+  setTimeout(()=>{if(scrollY===y)t.scrollIntoView()},600)});  // fallback where smooth scrolling is paused
 
 /* ---- cover line: exactly the logo's width, largest size that stays on two lines ---- */
 function fitLede(){
