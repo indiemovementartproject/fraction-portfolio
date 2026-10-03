@@ -190,28 +190,18 @@ a{color:inherit}
 .player .x{font:500 12px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink);background:none;border:1px solid var(--line);border-radius:999px;padding:10px 14px;cursor:pointer}
 .player .note{font:500 11px/1.4 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
 
-/* 9 worked with: two photo slots + logo wall */
-.clients .pad{gap:2cqw}
-.clients .body{flex:1;display:grid;grid-template-columns:30cqw 1fr;gap:2.4cqw;min-height:0}
-.shots{display:flex;flex-direction:column;gap:1cqw}
-.shots figure{margin:0;position:relative;aspect-ratio:16/9;border-radius:.6cqw;overflow:hidden;border:1px solid var(--line);
-  background:linear-gradient(135deg,rgba(155,134,255,.12),rgba(255,79,166,.12))}
-.shots img{width:100%;height:100%;object-fit:cover;display:block}
-.shots figcaption{position:absolute;left:.8cqw;bottom:.7cqw;font:500 .8cqw/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(8,3,13,.6);padding:.45cqw .6cqw;border-radius:.3cqw}
-.logos{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:1fr;gap:1cqw}
-.logo{position:relative;border:1px solid var(--line);border-radius:.6cqw;background:rgba(248,238,251,.03);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.6cqw;padding:1.2cqw;text-align:center}
-.logo img{max-width:74%;max-height:46%;object-fit:contain;display:none}
-.logo.has img{display:block}
-.logo .nm{font-family:var(--display);font-weight:700;text-transform:uppercase;font-size:1.45cqw;line-height:1.05;letter-spacing:-.01em}
-.logo.has .nm{display:none}
-.logo .rl{font:500 .75cqw/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
-a.logo{text-decoration:none;color:var(--ink);transition:border-color .3s,background .3s}
-a.logo:hover{border-color:rgba(255,79,166,.6);background:rgba(255,79,166,.08)}
-a.logo:hover .nm{color:var(--pink-2)}
-a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw/1 var(--body);color:var(--muted)}
-.logo.nolink{opacity:.55}
-.logo .pend{font:500 .7cqw/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--pink-2);border:1px dashed rgba(255,134,196,.5);border-radius:99px;padding:.35cqw .7cqw}
+/* 9 worked with: one endless row of logos, grey at rest, colour on hover */
+.clients{aspect-ratio:auto}
+.clients .pad{position:relative;inset:auto;padding:7cqw 5.4cqw 7.5cqw;gap:1.2cqw}
+.marquee{margin:3.4cqw -5.4cqw 0;overflow:hidden;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent);mask-image:linear-gradient(90deg,transparent,#000 9%,#000 91%,transparent)}
+.track{display:flex;align-items:center;gap:8cqw;width:max-content;padding:1.5cqw 0;animation:marquee 38s linear infinite}
+.marquee:hover .track,.marquee:focus-within .track{animation-play-state:paused}
+@keyframes marquee{to{transform:translateX(-50%)}}
+.brand{flex:none;display:block;height:var(--h,6cqw);transition:transform .4s}
+.brand img{height:100%;width:auto;display:block;filter:grayscale(1) brightness(1.25) contrast(.9);opacity:.72;transition:filter .5s,opacity .5s}
+.brand:hover img,.brand:focus-visible img{filter:none;opacity:1}
+a.brand:hover{transform:translateY(-.3cqw)}
 
 /* 10 contact: group photo full bleed, black gradient under the text */
 .contact .shade{background:linear-gradient(0deg,rgba(0,0,0,.94) 0%,rgba(0,0,0,.78) 30%,rgba(0,0,0,.2) 58%,transparent 72%)}
@@ -314,14 +304,10 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
   .playlist b{font-size:15px}.playlist small{font-size:11px;margin-top:4px}
 
   /* worked with */
-  .clients .body{grid-template-columns:1fr;gap:16px}
-  .shots{flex-direction:column;gap:10px}
-  .shots figure{border-radius:8px}.shots figcaption{font-size:11px;padding:5px 8px;left:8px;bottom:8px}
-  .logos{grid-template-columns:repeat(2,1fr);grid-auto-rows:minmax(104px,auto);gap:10px}
-  .logo{padding:14px 10px;gap:8px;border-radius:10px}
-  .logo .nm{font-size:15px}.logo .rl{font-size:10px}
-  .logo .pend{font-size:10px;padding:4px 8px}
-  a.logo::after{font-size:13px;top:8px;right:10px}
+  .clients .pad{padding:72px 20px 64px;gap:10px}
+  .marquee{margin:26px -20px 0}
+  .track{gap:44px;padding:10px 0;animation-duration:26s}
+  .brand{height:calc(var(--h,6cqw) * 1.75)}
 
   /* contact */
   .contact .mark{width:52vw;height:22.4vw}
@@ -329,7 +315,7 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
   .lines{grid-template-columns:1fr;gap:14px}.lines div:nth-child(2){grid-column:auto;grid-row:auto}
   .lines b{font-size:18px}
 }
-@media (prefers-reduced-motion:reduce){.cue::before{animation:none}.orb{animation:none}.mono{transition:none}}
+@media (prefers-reduced-motion:reduce){.track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;row-gap:4cqw}.track [aria-hidden="true"]{display:none}.cue::before{animation:none}.orb{animation:none}.mono{transition:none}}
 </style>
 </head>
 <body>
@@ -462,17 +448,12 @@ a.logo::after{content:"↗";position:absolute;top:.8cqw;right:1cqw;font:600 1cqw
     </div>
   </section>
 
-  <!-- 9 WORKED WITH: drop logos at media/logos/<slug>.png, photos at media/clients/ -->
+  <!-- 9 WORKED WITH: logo carousel, entries in LOGOS below -->
   <section class="slide clients" aria-label="Worked with">
     <div class="pad">
+      <p class="eyebrow">Brands · Artists · Stages</p>
       <h2 class="h2">Worked with</h2>
-      <div class="body">
-        <div class="shots">
-          <figure><img class="mono" src="media/km-wide.webp" alt="Kameezing shoot on a rooftop"><figcaption>Kameezing</figcaption></figure>
-          <figure><img class="mono" src="media/imap-stage.webp" alt="Fraction on stage at the iMAP Annual Jam"><figcaption>iMAP Annual Jam</figcaption></figure>
-        </div>
-        <div class="logos" id="logoWall"></div>
-      </div>
+      <div class="marquee" id="marquee"><div class="track" id="logoTrack"></div></div>
     </div>
   </section>
 
@@ -521,16 +502,14 @@ const CREATORS=[
   ["Yashraj Mukhate","yashraj-mukhate"],["Just Neel Things","just-neel-things"],
   ["Prosenjit Kundu","prosenjit-kundu"],["Ruhee Dosani","ruhee-dosani"]
 ];
-// [name, logo slug, role, full video link or "" when the file is still missing]
-const CLIENTS=[
-  ["Fast&Up","fastandup","Ad film · Brand films","https://drive.google.com/file/d/10fDIy6hIRUFmTQFtrC_J2JBtZXr5hwqd/view"],
-  ["Kameezing","kameezing","Fashion films","https://drive.google.com/file/d/1-MhSileXfluf2xsWMEDwWiIwKIus7_jN/view"],
-  ["The Souled Store","the-souled-store","Brand film",""],
-  ["Sharjah Warriors","sharjah-warriors","ILT20 ad film",""],
-  ["Airtel","airtel","Showcase 2022 · 2023",""],
-  ["iMAP","imap","Annual Jam showcase","https://drive.google.com/file/d/1b_HZUwgLZbLA9Z2V4EBTm1M1h_bYPL37/view"],
-  ["Jaadu","jaadu","Music video",""],
-  ["Anant Khamkar","anant-khamkar","Music video",""]
+// Worked with: [name, logo file, full video link or "", logo height in cqw (evens out wide vs tall marks)]
+const LOGOS=[
+  ["Fast&Up","media/logos/fastandup.png","https://drive.google.com/file/d/10fDIy6hIRUFmTQFtrC_J2JBtZXr5hwqd/view",6.0],
+  ["Kameezing","media/logos/kameezing.png","https://drive.google.com/file/d/1-MhSileXfluf2xsWMEDwWiIwKIus7_jN/view",7.0],
+  ["The Souled Store","media/logos/the-souled-store.png","",9.4],
+  ["Sharjah Warriors","media/logos/sharjah-warriors.png","",12.0],
+  ["Airtel","media/logos/airtel.png","",6.2],
+  ["iMAP","media/logos/imap.png","https://drive.google.com/file/d/1b_HZUwgLZbLA9Z2V4EBTm1M1h_bYPL37/view",6.8]
 ];
 const silhouette='<svg viewBox="0 0 100 120" aria-hidden="true"><circle cx="50" cy="34" r="20" fill="#f8eefb"/><path d="M8 120c2-30 20-46 42-46s40 16 42 46z" fill="#f8eefb"/></svg>';
 function slot(el,src){const i=new Image();i.alt='';i.className='mono';i.onload=()=>el.classList.add('has');i.src=src;el.prepend(i)}
@@ -540,14 +519,14 @@ CREATORS.forEach(([name,slug])=>{
   c.innerHTML='<div class="cut"><div class="ph">'+silhouette+'<span>Photo · '+slug+'.webp</span></div></div><h3 class="h3">'+name+'</h3><p class="eyebrow">Creator</p>';
   slot(c.querySelector('.cut'),'media/creators/'+slug+'.webp');cards.appendChild(c);
 });
-const wall=document.getElementById('logoWall');
-CLIENTS.forEach(([name,slug,role,link])=>{
-  const d=document.createElement(link?'a':'div');d.className='logo'+(link?'':' nolink');
-  if(link){d.href=link;d.target='_blank';d.rel='noopener';d.setAttribute('aria-label',name+', watch the full video')}
-  d.innerHTML='<span class="nm">'+name.replace('&','&amp;')+'</span><span class="rl">'+role+'</span>'+(link?'':'<span class="pend">Video link needed</span>');
-  slot(d,'media/logos/'+slug+'.png');
-  wall.appendChild(d);
-});
+/* the row is drawn twice so the -50% loop is seamless; the copy is hidden from screen readers */
+const track=document.getElementById('logoTrack');
+[0,1].forEach(copy=>LOGOS.forEach(([name,src,link,h])=>{
+  const el=document.createElement(link?'a':'span');el.className='brand';el.style.setProperty('--h',h+'cqw');
+  if(link){el.href=link;el.target='_blank';el.rel='noopener';el.setAttribute('aria-label',name+', watch the film')}
+  if(copy){el.setAttribute('aria-hidden','true');if(link)el.tabIndex=-1}
+  const img=new Image();img.src=src;img.alt=copy?'':name;img.loading='lazy';el.appendChild(img);track.appendChild(el);
+}));
 
 /* ---- orbs: 3–4 per slide, one per cell of a 2x2 grid with jitter, seeded so the layout is stable ---- */
 function rng(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}

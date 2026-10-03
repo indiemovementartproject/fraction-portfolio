@@ -20,8 +20,7 @@ To use a custom domain (for example `portfolio.fraction.in`), add it in Settings
 - **Phone-only video:** the title and Fashion Film sections play a vertical cut on phones (`media/ffv-*.mp4`) and the landscape cut on larger screens. Any `<video>` with `data-msrc` and `data-dsrc` switches the same way.
 
 - **Creator photos:** square WebP images in `media/creators/`, named `yashraj-mukhate.webp`, `just-neel-things.webp`, `prosenjit-kundu.webp` and `ruhee-dosani.webp`. To add a creator, add a line to `const CREATORS` in `index.html` and drop in a matching file.
-- **Client logos:** transparent PNGs in `media/logos/` (Fast&Up, Kameezing and iMAP are in place); add more, named `fastandup.png`, `kameezing.png`, `the-souled-store.png`, `sharjah-warriors.png`, `airtel.png`, `imap.png`, `jaadu.png` and `anant-khamkar.png`. Each logo replaces its name card.
-- **Client video links:** in `index.html`, find `const CLIENTS` and paste the video URL as the fourth value on that client's line. An empty `""` shows "Video link needed".
+- **Worked with (logo carousel):** in `index.html`, find `const LOGOS`. Each line is one logo: name, image file in `media/logos/` (transparent PNG), optional link to a film, and a height that evens out wide and tall marks. Add a line and drop in the file; the row scrolls endlessly and pauses on hover.
 - **Dance films:** in `index.html`, find `const FILMS`. Each line is one playlist row: title, label, thumbnail, preview clip and the full-film link.
 
 ## Moving it to another account
