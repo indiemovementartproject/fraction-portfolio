@@ -136,13 +136,12 @@ a{color:inherit}
 /* the nudge: each card in turn makes as if to turn over, until someone flips one */
 .creators.live:not(.learned) .flip[aria-pressed="false"] .flip-in{animation:tease 5.5s var(--d) ease-in-out infinite}
 @keyframes tease{0%,62%,100%{transform:rotateY(0)}70%{transform:rotateY(-24deg)}78%{transform:rotateY(12deg)}85%{transform:rotateY(-5deg)}91%{transform:rotateY(0)}}
-.hint{position:absolute;right:.7cqw;bottom:.7cqw;z-index:2;display:flex;align-items:center;gap:.4cqw;pointer-events:none;
-  font:500 .78cqw/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#fff;background:rgba(8,3,13,.62);
-  padding:.45cqw .65cqw;border-radius:99px;border:1px solid rgba(255,255,255,.18);transition:opacity .4s}
-.hint::before{content:"↻";font:600 1cqw/1 var(--body)}
-.hint::after{content:"Flip"}
-.flip[aria-pressed="true"] .hint::before{content:"↺"}
-.flip[aria-pressed="true"] .hint::after{content:"Back"}
+/* tap cue: a small pulsing dot in the corner */
+.hint{position:absolute;right:1cqw;bottom:1cqw;z-index:2;width:.85cqw;height:.85cqw;border-radius:50%;background:var(--pink);pointer-events:none;
+  box-shadow:0 0 .8cqw rgba(255,79,166,.8)}
+.hint::after{content:"";position:absolute;inset:0;border-radius:50%;border:1.5px solid var(--pink);animation:ping 1.8s cubic-bezier(.2,.6,.3,1) infinite}
+@keyframes ping{0%{transform:scale(1);opacity:.9}100%{transform:scale(3.2);opacity:0}}
+.flip[aria-pressed="true"] .hint::after{animation:none;opacity:0}
 .card .h3{font-size:1.75cqw}
 .music{display:flex;flex-wrap:wrap;align-items:baseline;gap:.6cqw 1.6cqw;border-top:1px solid var(--line);padding-top:1.2cqw}
 .music b{font:700 1.3cqw/1.2 var(--body)}
@@ -289,7 +288,7 @@ a.brand:hover{transform:translateY(-.2cqw)}
   /* creators */
   .creators .head{flex-direction:column;align-items:flex-start;gap:10px}
   .cards{grid-template-columns:1fr 1fr;gap:14px}
-  .hint{font-size:9px;gap:5px;padding:5px 8px;right:8px;bottom:8px}.hint::before{font-size:12px}
+  .hint{width:9px;height:9px;right:10px;bottom:10px}
   .face,.flip{border-radius:10px}
   .card{gap:8px}.card .h3{font-size:17px}
   .music{gap:8px 16px;padding-top:16px}.music b{font-size:15px}
@@ -324,7 +323,7 @@ a.brand:hover{transform:translateY(-.2cqw)}
   .lines{grid-template-columns:1fr;gap:14px}.lines div:nth-child(2){grid-column:auto;grid-row:auto}
   .lines b{font-size:18px}
 }
-@media (prefers-reduced-motion:reduce){.flip-in{transition:transform .01s}.creators .flip .flip-in{animation:none!important}.track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;row-gap:4cqw}.track [aria-hidden="true"]{display:none}.cue::before{animation:none}.orb{animation:none}.mono{transition:none}}
+@media (prefers-reduced-motion:reduce){.hint::after{animation:none}.flip-in{transition:transform .01s}.creators .flip .flip-in{animation:none!important}.track{animation:none;flex-wrap:wrap;justify-content:center;width:auto;row-gap:4cqw}.track [aria-hidden="true"]{display:none}.cue::before{animation:none}.orb{animation:none}.mono{transition:none}}
 </style>
 </head>
 <body>
