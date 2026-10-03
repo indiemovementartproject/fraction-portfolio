@@ -19,7 +19,7 @@ To use a custom domain (for example `portfolio.fraction.in`), add it in Settings
 
 - **Phone-only video:** the title and Fashion Film sections play a vertical cut on phones (`media/ffv-*.mp4`) and the landscape cut on larger screens. Any `<video>` with `data-msrc` and `data-dsrc` switches the same way.
 
-- **Creator photos:** square WebP images in `media/creators/`, named `yashraj-mukhate.webp`, `just-neel-things.webp`, `prosenjit-kundu.webp` and `ruhee-dosani.webp`. To add a creator, add a line to `const CREATORS` in `index.html` and drop in a matching file.
+- **Creator cards:** in `index.html`, find `const CREATORS`. Each line is name, front photo and back photo (Fraction with that creator), all square WebP in `media/creators/`. The card flips in 3D on tap; a creator without a group photo repeats the front image as the back.
 - **Worked with (logo carousel):** in `index.html`, find `const LOGOS`. Each line is one logo: name, image file in `media/logos/` (transparent PNG), optional link to a film, and a height that evens out wide and tall marks. Add a line and drop in the file; the row scrolls endlessly and pauses on hover.
 - **Dance films:** in `index.html`, find `const FILMS`. Each line is one playlist row: title, label, thumbnail, preview clip and the full-film link.
 
