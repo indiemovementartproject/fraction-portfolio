@@ -21,6 +21,7 @@ To use a custom domain (for example `portfolio.fraction.in`), add it in Settings
 
 - **Creator cards:** in `index.html`, find `const CREATORS`. Each line is name, front photo and back photo (Fraction with that creator), all square WebP in `media/creators/`. The card flips in 3D on tap; a creator without a group photo repeats the front image as the back.
 - **Worked with (logo carousel):** in `index.html`, find `const LOGOS`. Each line is one logo: name, image file in `media/logos/` (transparent PNG), optional link to a film, and a height that evens out wide and tall marks. Add a line and drop in the file; the row scrolls endlessly and pauses on hover.
+- **Brand films collage:** the two stacked tiles (Fast&Up 7th anniversary, The Souled Store) are placeholders. To fill one, replace its empty `<div class="media"></div>` with a `<video class="mono" src="media/…mp4" muted loop playsinline preload="metadata"></video>`, remove the `soon` class from the `<article>`, and swap the "Film coming soon" tag for a Watch link.
 - **Dance films:** in `index.html`, find `const FILMS`. Each line is one playlist row: title, label, thumbnail, preview clip and the full-film link.
 
 ## Moving it to another account

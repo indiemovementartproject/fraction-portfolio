@@ -107,18 +107,24 @@ a{color:inherit}
 /* 5 brands */
 .brands .pad{gap:1.6cqw;padding-block:4.2cqw 3.6cqw}
 .brands .head{display:flex;justify-content:space-between;align-items:flex-end;gap:3cqw}
-.cases{display:flex;gap:1.8cqw;align-items:flex-start}
-.case{display:flex;flex-direction:column;gap:1cqw}
-.case .media{position:relative;overflow:hidden;border-radius:.6cqw;background:#000}
+/* collage: wide Kameezing, tall Fast&Up at true 9:16, two short tiles stacked; captions sit inside each tile */
+.cases{--ch:27cqw;display:grid;grid-template-columns:1.3fr calc(var(--ch)*9/16) 1fr;grid-template-rows:var(--ch);gap:1.3cqw}
+.stack{display:grid;grid-template-rows:1fr 1fr;gap:1.3cqw;min-height:0}
+.case{position:relative;overflow:hidden;border-radius:.8cqw;background:#000;border:1px solid var(--line);min-height:0}
+.case .media{position:absolute;inset:0}
 .case .media video{width:100%;height:100%;display:block;object-fit:cover}
-.case.wide{width:36cqw}.case.wide .media{aspect-ratio:16/9}
-.case.tall{width:11.4cqw}.case.tall .media{aspect-ratio:9/16}
-.case .meta{display:flex;justify-content:space-between;align-items:baseline;gap:1cqw}
+.case:hover .media .mono{filter:none}
+.cap{position:absolute;left:0;right:0;bottom:0;z-index:2;display:flex;flex-direction:column;gap:.45cqw;padding:3.2cqw 1.4cqw 1.2cqw;
+  background:linear-gradient(0deg,rgba(8,3,13,.94),rgba(8,3,13,.62) 55%,transparent)}
+.cap .eyebrow{color:rgba(255,255,255,.72);font-size:.9cqw}
+.cap .row{display:flex;justify-content:space-between;align-items:baseline;gap:1cqw;flex-wrap:wrap}
+.cap .h3{font-size:1.75cqw;color:#fff}
+.case.fu .cap .row{flex-direction:column;align-items:flex-start;gap:.6cqw}
+.case.soon .media{background:radial-gradient(60% 90% at 80% 10%,rgba(255,79,166,.28),transparent 70%),
+  repeating-linear-gradient(135deg,rgba(248,238,251,.035) 0 1px,transparent 1px 14px),#120a1c}
+.case.soon .cap{padding-top:1.4cqw;background:none}
+.tag{font:500 .8cqw/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--pink-2);border:1px dashed rgba(255,134,196,.5);border-radius:99px;padding:.4cqw .7cqw;white-space:nowrap}
 .bnav{display:none}
-.case.tall .meta{flex-direction:column;align-items:flex-start;gap:.7cqw}
-.stack{flex:1;display:flex;flex-direction:column;gap:1.2cqw}
-.stack .item{border-top:1px solid var(--line);padding-top:1cqw;display:flex;flex-direction:column;gap:.45cqw}
-.stack .h3{font-size:1.75cqw}
 
 /* 6 creators: cutout cards, photos slot in by filename */
 .creators .pad{gap:2cqw}
@@ -273,17 +279,18 @@ a.brand:hover{transform:translateY(-.2cqw)}
   /* phones: one project at a time, swipe sideways or use the arrows */
   .bnav{display:flex;align-items:center;justify-content:space-between;gap:12px}
   .bnav .eyebrow{color:var(--pink-2)}
-  .cases{flex-direction:row;align-items:stretch;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
+  .cases{display:flex;flex-direction:row;align-items:stretch;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;
     margin:0 -20px;padding:0 20px;scroll-padding:0 20px;scrollbar-width:none}
   .cases::-webkit-scrollbar{display:none}
   .stack{display:contents}
-  .cases > .case,.stack > .item{flex:0 0 100%;min-width:0;scroll-snap-align:start}
-  .case.wide,.case.tall{width:auto}
-  .case.tall .media{aspect-ratio:16/9}
-  .case.tall .media video{object-fit:contain}
-  .stack > .item{border:1px solid var(--line);border-radius:12px;padding:22px 20px;background:rgba(248,238,251,.03);justify-content:center}
-  .case .h3,.stack .h3,.card .h3{font-size:20px}
-  .stack .item{gap:8px}
+  .case{flex:0 0 100%;min-width:0;scroll-snap-align:start;aspect-ratio:4/3;border-radius:12px}
+  .case.fu .media video{object-fit:contain}
+  .cap{padding:40px 16px 14px;gap:6px}
+  .cap .eyebrow{font-size:10px}
+  .case .cap .h3{font-size:20px}
+  .case.fu .cap .row{flex-direction:row;align-items:baseline}
+  .tag{font-size:9px;padding:5px 8px}
+  .card .h3{font-size:20px}
 
   /* creators */
   .creators .head{flex-direction:column;align-items:flex-start;gap:10px}
@@ -391,20 +398,24 @@ a.brand:hover{transform:translateY(-.2cqw)}
         <button class="nav next" type="button" id="bnext" aria-label="Next project"></button>
       </div>
       <div class="cases" id="cases">
-        <article class="case wide">
+        <article class="case km">
           <div class="media"><video class="mono" src="media/kameezing.mp4" poster="media/kameezing-poster.webp" muted loop playsinline preload="metadata"></video></div>
-          <div class="meta"><h3 class="h3">Kameezing</h3><a class="watch" href="https://drive.google.com/file/d/1-MhSileXfluf2xsWMEDwWiIwKIus7_jN/view" target="_blank" rel="noopener">Watch</a></div>
-          <p class="small">Fashion film for the label’s block-print shirts. Two brand films for social.</p>
+          <div class="cap"><p class="eyebrow">Fashion film · Two brand films</p><div class="row"><h3 class="h3">Kameezing</h3><a class="watch" href="https://drive.google.com/file/d/1-MhSileXfluf2xsWMEDwWiIwKIus7_jN/view" target="_blank" rel="noopener">Watch</a></div></div>
         </article>
-        <article class="case tall">
+        <article class="case fu">
           <div class="media"><video class="mono" src="media/fastandup.mp4" poster="media/fastandup-poster.webp" muted loop playsinline preload="metadata"></video></div>
-          <div class="meta"><h3 class="h3">Fast&amp;Up</h3><a class="watch" href="https://drive.google.com/file/d/10fDIy6hIRUFmTQFtrC_J2JBtZXr5hwqd/view" target="_blank" rel="noopener">Watch</a></div>
-          <p class="small">Good Eatz brand film for social.</p>
+          <div class="cap"><p class="eyebrow">Good Eatz</p><div class="row"><h3 class="h3">Fast&amp;Up</h3><a class="watch" href="https://drive.google.com/file/d/10fDIy6hIRUFmTQFtrC_J2JBtZXr5hwqd/view" target="_blank" rel="noopener">Watch</a></div></div>
         </article>
         <div class="stack">
-          <div class="item"><p class="eyebrow">Fast&amp;Up</p><h3 class="h3">7th anniversary ad film</h3><p class="small">Production, direction, shoot and edit. Four more brand films for social, including Good Eatz.</p></div>
-          <div class="item"><p class="eyebrow">Sharjah Warriors · ILT20 UAE</p><h3 class="h3">Ad film choreography</h3><p class="small">Choreography and performance.</p></div>
-          <div class="item"><p class="eyebrow">The Souled Store</p><h3 class="h3">Dance-led brand film</h3><p class="small">Direction, production, shoot and edit.</p></div>
+          <!-- placeholder: swap .media for a <video> and add a Watch link when the film arrives -->
+          <article class="case soon">
+            <div class="media"></div>
+            <div class="cap"><p class="eyebrow">Fast&amp;Up</p><div class="row"><h3 class="h3">7th anniversary ad film</h3><span class="tag">Film coming soon</span></div></div>
+          </article>
+          <article class="case soon">
+            <div class="media"></div>
+            <div class="cap"><p class="eyebrow">The Souled Store</p><div class="row"><h3 class="h3">Dance-led brand film</h3><span class="tag">Film coming soon</span></div></div>
+          </article>
         </div>
       </div>
       <div class="wstrip">
@@ -621,7 +632,7 @@ FILMS.forEach((f,i)=>{
 document.getElementById('fplay').onclick=()=>selectFilm(+stage.dataset.idx||0,true);
 /* phones: brand films track; arrows scroll one card, the counter follows the swipe */
 const cases=document.getElementById('cases'),bc=document.getElementById('bc');
-const brandCards=()=>[...cases.querySelectorAll(':scope > .case, .stack > .item')];
+const brandCards=()=>[...cases.querySelectorAll(':scope > .case, .stack > .case')];
 function bIndex(){const w=brandCards()[0].offsetWidth+16;return Math.round(cases.scrollLeft/w)}
 function bUpdate(){bc.textContent=(bIndex()+1)+' / '+brandCards().length}
 function bStep(d){const c=brandCards(),n=c.length,i=(bIndex()+d+n)%n,x=c[i].offsetLeft-cases.offsetLeft-20,from=cases.scrollLeft;
